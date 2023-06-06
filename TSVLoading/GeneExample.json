@@ -1,0 +1,21 @@
+{
+  "GeneCode": "BRAF",
+   "ENS": "ENST00000288602",
+  "cDNA": "c.1799_1800delTGinsAA",
+  "Protein": "p.V600E",
+  "tier": 1,
+  "Evidence_Source": "NCCN",
+  "Approved FDA": "",
+  "Approved FDA for others": "",
+  "NCCN": [
+    {
+      "Drug": "Cetuximab;panitumumab;vemurafenib",
+      "Response": 29,
+      "Condition": "Dan Jukes",
+      "Panel": "The panel believes that evidence increasingly suggests that BRAF V600E mutation makes response to panitumumab or cetuximab, as single agents or in combination with cytotoxic chemotherapy, highly unlikely, unless given with a BRAF inhibitor"
+    }
+  ],
+  "Investigational Drug": "",
+  "Preclinical evidence for others": "PLX8394:All Solid Tumors",
+  "Submitted Tissue": "colon"
+}
