@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/ASP.NETCoreWebApplication1/ClientApp/.angular/cache/15.1.6/babel-webpack
+/ASP.NETCoreWebApplication1/ClientApp/.angular/cache/15.1.6/angular-webpack/927451a73262d7c67086c50a9498228cb88e0d56
+/ASP.NETCoreWebApplication1/ClientApp/angular.json
