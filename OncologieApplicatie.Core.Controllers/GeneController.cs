@@ -30,10 +30,8 @@ public class GeneController
 		return await response.Content.ReadAsStringAsync();
     }
 
-	public async Task<string?> Find(Dictionary<string, string> data)
+	public async Task<string?> FindAsync(Dictionary<string, string> data)
 	{
-		var contentType = "application/json";
-
 		var filter = new Dictionary<string, string>();
         foreach (var keyValuePair in data)
         {
@@ -45,9 +43,9 @@ public class GeneController
             Selector = filter
         });
 
-        _httpClient.DefaultRequestHeaders.Add("Content-Type", contentType);
+        _httpClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
 
-		var content = new StringContent(requestBody, Encoding.UTF8, contentType);
+		var content = new StringContent(requestBody, Encoding.UTF8, "application/json");
 
 		var response = await _httpClient.PostAsync($"{URI}/_find", content);
         if (!response.IsSuccessStatusCode)
@@ -57,6 +55,61 @@ public class GeneController
 
         return await response.Content.ReadAsStringAsync();
 	}
+
+
+    // TODO: create functionality to add a new file to db
+    // /oncologie/{Guid}
+    public async Task<string?> CreateAsync(string json)
+    {
+        if (!CheckIfValidJson(json))
+        {
+            return null;
+        }
+        
+        var requestBody = JsonSerializer.Serialize(new
+        {
+            Doc = JsonSerializer.Serialize(json)
+        });
+
+        _httpClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
+        Guid id = new Guid();
+
+        var content = new StringContent(requestBody, Encoding.UTF8, "application/json");
+
+        var response = await _httpClient.PostAsync($"{URI}/", content);
+
+        return await response.Content.ReadAsStringAsync();
+    }
+
+    // TODO: create functionality to add bulk new files to db
+    // /oncologie/_bulk_docs
+    public async Task<string?> BulkCreateAsync(string json)
+    {
+        if (!CheckIfValidJson(json))
+        {
+            return null;
+        }
+
+        
+        
+        _httpClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
+
+        var content = new StringContent(requestBody, Encoding.UTF8, "application/json");
+
+    }
+
+    private static bool CheckIfValidJson(string json)
+    {
+        try
+        {
+            var obj = JsonSerializer.Deserialize<object>(json);
+            return true;
+        }
+        catch (JsonException)
+        {
+            return false;
+        }
+    }
 }
 
 

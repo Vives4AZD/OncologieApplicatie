@@ -9,15 +9,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{79
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{45777167-89F2-44F4-9E94-11938F1DDFA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OncologieApplicatie.model", "OncologieApplicatie.model\OncologieApplicatie.model.csproj", "{6E314348-1CEF-42C8-B022-C774A83D3300}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OncologieApplicatie.model", "OncologieApplicatie.model\OncologieApplicatie.model.csproj", "{6E314348-1CEF-42C8-B022-C774A83D3300}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASP.NETCoreWebApplication1", "ASP.NETCoreWebApplication1\ASP.NETCoreWebApplication1.csproj", "{05F50252-E37E-4304-A1D5-C319F2C74796}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OncologieApplicatie.UI", "ASP.NETCoreWebApplication1\OncologieApplicatie.UI.csproj", "{05F50252-E37E-4304-A1D5-C319F2C74796}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Console", "Console", "{5B3973AF-C7A4-4368-B9C0-08609BAD6B3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSVLoading", "TSVLoading\TSVLoading.csproj", "{4BCBA865-49FE-4C9C-9B71-33B436B0B08A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSVLoading", "TSVLoading\TSVLoading.csproj", "{4BCBA865-49FE-4C9C-9B71-33B436B0B08A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OncologieApplicatie.Core.Controllers", "OncologieApplicatie.Core.Controllers\OncologieApplicatie.Core.Controllers.csproj", "{2847A4E3-EECB-43DF-A60F-677E05914A6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OncologieApplicatie.Core.Controllers", "OncologieApplicatie.Core.Controllers\OncologieApplicatie.Core.Controllers.csproj", "{2847A4E3-EECB-43DF-A60F-677E05914A6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
