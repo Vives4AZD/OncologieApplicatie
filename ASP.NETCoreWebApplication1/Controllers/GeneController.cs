@@ -4,15 +4,15 @@ using OncologieApplicatie.Core.Controllers.OncologieApplicatie.Services;
 namespace ASP.NETCoreWebApplication1.Controllers;
 
 [ApiController]
-[Route("api/[Controller]")]
+[Route("[Controller]")]
 public class GeneController : Controller
 {
     private GeneService gc = new GeneService("admin", "admin123");
     
     [HttpGet("[action]")]
-    public ActionResult GetAllGenes()
+    public async Task<ActionResult> GetAllGenes()
     {
-        var test = gc.GetAsync();
+        var test = await  gc.GetAsync();
         return Ok(gc.GetAsync());
     }
 
