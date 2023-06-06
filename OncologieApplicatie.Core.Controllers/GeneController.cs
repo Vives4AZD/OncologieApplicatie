@@ -19,31 +19,25 @@ public class GeneController
         _httpClient.DefaultRequestHeaders.Add("Authorization", "Basic " + encoded);
     }
 
-	//TODO: function that gets one data from the database, write http request
-
-	public async Task<HttpContent> GetAsync()
+	public async Task<string> GetAsync()
 	{
-        HttpResponseMessage response = await _httpClient.GetAsync($"{URI}/_bulk_get");
-		response.EnsureSuccessStatusCode();
-		var responseBody = response.Content;
+        var response = await _httpClient.GetAsync($"{URI}/_bulk_get");
+        if (!response.IsSuccessStatusCode)
+        {
+            return null;
+        }
+		return await response.Content.ReadAsStringAsync();
     }
 
-	public async Task PostRequest()
+	public async Task<string> PostRequest(Dictionary<string, string> data)
 	{
-
-		var username = "admin";
-		var password = "admin123";
-		var referer = "all-islands-think.loca.lt";
 		var contentType = "application/json";
 
-		var requestBody = @"{
+		var requestBody = $@"{
             ""selector"": {
                 ""_id"": ""ee929a186e286257678a0358850039a0""
             }
         }";
-
-		var encodedCredentials = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1")
-			.GetBytes(username + ":" + password));
 
 		HttpClient httpClient = new HttpClient();
 		httpClient.DefaultRequestHeaders.Add("Authorization", "Basic " + encodedCredentials);
