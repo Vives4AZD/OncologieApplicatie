@@ -1,5 +1,6 @@
 ﻿
 using System.Text;
+using System.Text.Json;
 
 namespace OncologieApplicatie.Core.Controllers;
 
@@ -19,7 +20,7 @@ public class GeneController
         _httpClient.DefaultRequestHeaders.Add("Authorization", "Basic " + encoded);
     }
 
-	public async Task<string> GetAsync()
+	public async Task<string?> GetAsync()
 	{
         var response = await _httpClient.GetAsync($"{URI}/_bulk_get");
         if (!response.IsSuccessStatusCode)
@@ -29,37 +30,33 @@ public class GeneController
 		return await response.Content.ReadAsStringAsync();
     }
 
-	public async Task<string> PostRequest(Dictionary<string, string> data)
+	public async Task<string?> Find(Dictionary<string, string> data)
 	{
 		var contentType = "application/json";
 
-		var requestBody = $@"{
-            ""selector"": {
-                ""_id"": ""ee929a186e286257678a0358850039a0""
-            }
-        }";
+		var filter = new Dictionary<string, string>();
+        foreach (var keyValuePair in data)
+        {
+            filter[keyValuePair.Key] = keyValuePair.Value;
+        }
 
-		HttpClient httpClient = new HttpClient();
-		httpClient.DefaultRequestHeaders.Add("Authorization", "Basic " + encodedCredentials);
-		httpClient.DefaultRequestHeaders.Add("Referer", referer);
+        var requestBody = JsonSerializer.Serialize(new
+        {
+            Selector = filter
+        });
+
+        _httpClient.DefaultRequestHeaders.Add("Content-Type", contentType);
 
 		var content = new StringContent(requestBody, Encoding.UTF8, contentType);
 
-		var response = await httpClient.PostAsync($"https://{referer}/oncologie/_find", content);
-		response.EnsureSuccessStatusCode();
+		var response = await _httpClient.PostAsync($"{URI}/_find", content);
+        if (!response.IsSuccessStatusCode)
+        {
+            return null;
+        }
 
-		var responseBody = await response.Content.ReadAsStringAsync();
-
-		Console.WriteLine(responseBody);
+        return await response.Content.ReadAsStringAsync();
 	}
-
-
-
-
-	//TODO: function that gets all the data from the database
-
-
-
 }
 
 
