@@ -22,7 +22,7 @@
         <tr *ngFor="let gen of gens">
           <td>{{gen.Name}}</td>
           <td>{{gen.Gencode}}</td>
-          <td><button class="btn btn-primary">Go to detail</button></td>
+          <td><button class="btn btn-primary" (click)="GoToDetail(gen.id)">Go to detail</button></td>
         </tr>
       </tbody>
     </table>

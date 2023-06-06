@@ -1,5 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {SharedService} from "../services/shared.service";
+import {Router} from '@angular/router'
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,7 @@ import {SharedService} from "../services/shared.service";
 export class HomeComponent {
   gens: any = [];
 
-  constructor(private ss: SharedService) {
+  constructor(private ss: SharedService, private router: Router) {
   }
   ngOnInit(): void {
     for (let i = 0; i < 100; i++){
@@ -24,6 +25,10 @@ export class HomeComponent {
       });
       console.log(this.gens);
     }
+  }
+
+  GoToDetail(id: any){
+    this.router.navigateByUrl('/detail')
   }
 }
 
