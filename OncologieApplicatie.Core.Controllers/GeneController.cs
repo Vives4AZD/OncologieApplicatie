@@ -5,33 +5,30 @@ namespace OncologieApplicatie.Core.Controllers;
 
 public class GeneController
 {
+    private string _password;
+    private string _username;
+	private HttpClient _httpClient;
+	private const string URI = "https://slimy-aliens-hope.loca.lt/oncologie";
 
+    public GeneController(string username, string password)
+    {
+        _username = username; //"admin";
+        _password = password; //"admin123";
+        string encoded = System.Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(_username + ":" + _password));
+        _httpClient = new HttpClient();
+        _httpClient.DefaultRequestHeaders.Add("Authorization", "Basic " + encoded);
+    }
 
 	//TODO: function that gets one data from the database, write http request
 
-	public static async Task GetAsync(HttpClient httpClient)
+	public async Task<HttpContent> GetAsync()
 	{
-
-		var username = "admin";
-		var password = "admin123";
-		string encoded = System.Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1")
-			.GetBytes(username + ":" + password));
-
-
-		HttpClient client = new HttpClient();
-
-		client.DefaultRequestHeaders.Add("Authorization", "Basic " + encoded);
-
-
-		HttpResponseMessage response = await client.GetAsync("https://slimy-aliens-hope.loca.lt/oncologie/_bulk_get");
+        HttpResponseMessage response = await _httpClient.GetAsync($"{URI}/_bulk_get");
 		response.EnsureSuccessStatusCode();
-		string responseBody = await response.Content.ReadAsStringAsync();
+		var responseBody = response.Content;
+    }
 
-		
-
-	}
-
-	public static async Task PostRequest()
+	public async Task PostRequest()
 	{
 
 		var username = "admin";
