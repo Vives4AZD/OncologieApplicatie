@@ -21,6 +21,7 @@ export class HomeComponent {
       });
 
       this.ss.GetAllGenes().subscribe( d =>{
+        console.log(d);
         this.gens = d;
       });
       console.log(this.gens);
