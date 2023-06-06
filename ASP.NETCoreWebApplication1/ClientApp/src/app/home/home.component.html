@@ -4,3 +4,18 @@
   <h1>Zoek op gen</h1>
   <input type="text" placeholder="zoeken...">
 </div>
+
+<table class="table table-striped">
+    <thead>
+        <th scope="col" class="col">Name Gene</th>
+        <th scope="col" class="col">Gene Code</th>
+        <th scope="col" class="col"> </th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let gen of gens">
+          <td>{{gen.Name}}</td>
+          <td>{{gen.Gencode}}</td>
+          <td><button class="btn btn-primary">Go to detail</button></td>
+        </tr>
+    </tbody>
+</table>

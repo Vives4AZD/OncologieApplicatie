@@ -7,4 +7,16 @@ import { Component } from '@angular/core';
 
 })
 export class HomeComponent {
+  gens: any = [];
+  ngOnInit(): void {
+    for (let i = 0; i < 100; i++){
+      this.gens.push({
+        "id": i,
+        "Name": 'Gen' + i,
+        "Gencode": 'BE12345654'
+      });
+      console.log(this.gens);
+    }
+  }
 }
+
