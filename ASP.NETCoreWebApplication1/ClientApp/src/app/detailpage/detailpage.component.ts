@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-detailpage',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./detailpage.component.css']
 })
 export class DetailpageComponent {
+  constructor(private router: Router) {
 
+  }
+
+  NavigateBack() {
+    this.router.navigateByUrl('');
+  }
 }

@@ -1,21 +1,34 @@
 
-
-<div class="Searchheader">
-  <h1>Zoek op gen</h1>
-  <input type="text" placeholder="zoeken...">
+<div class="row">
+  <div class="col-8">
+  </div>
+  <div class="col-4">
+    <!--<h1>Zoek op gen</h1>-->
+    <input type="text" placeholder="zoek">
+  </div>
 </div>
 
-<table class="table table-striped">
-    <thead>
-        <th scope="col" class="col">Name Gene</th>
-        <th scope="col" class="col">Gene Code</th>
-        <th scope="col" class="col"> </th>
-    </thead>
-    <tbody>
+<div class="row">
+  <div class="col-3">
+  </div>
+  <div class="col-6">
+    <table class="table table-striped ">
+      <thead>
+      <th scope="col" class="col">Name Gene</th>
+      <th scope="col" class="col">Gene Code</th>
+      <th scope="col" class="col"> </th>
+      </thead>
+      <tbody>
         <tr *ngFor="let gen of gens">
           <td>{{gen.Name}}</td>
           <td>{{gen.Gencode}}</td>
           <td><button class="btn btn-primary">Go to detail</button></td>
         </tr>
-    </tbody>
-</table>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-3">
+  </div>
+</div>
+
+

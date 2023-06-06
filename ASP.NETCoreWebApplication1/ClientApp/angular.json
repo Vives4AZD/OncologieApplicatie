@@ -132,5 +132,8 @@
       }
     }
   },
-  "defaultProject": "ASP.NETCoreWebApplication1"
+  "defaultProject": "ASP.NETCoreWebApplication1",
+  "cli": {
+    "analytics": false
+  }
 }
