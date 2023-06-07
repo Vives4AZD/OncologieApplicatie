@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\OncologieApplicatie.Core.Controllers\OncologieApplicatie.Core.Controllers.csproj" />
+      <ProjectReference Include="..\OncologieApplicatie.Core.Controllers\OncologieApplicatie.Services.csproj" />
     </ItemGroup>
 
 </Project>

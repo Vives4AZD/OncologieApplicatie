@@ -1,5 +1,4 @@
-﻿
-using System.Text;
+﻿using System.Text;
 using System.Text.Json;
 
 namespace OncologieApplicatie.Core.Controllers;
@@ -18,11 +17,12 @@ public class GeneController
         string encoded = System.Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(_username + ":" + _password));
         _httpClient = new HttpClient();
         _httpClient.DefaultRequestHeaders.Add("Authorization", "Basic " + encoded);
+        _httpClient.BaseAddress = new Uri(URI);
     }
 
 	public async Task<string?> GetAsync()
 	{
-        var response = await _httpClient.GetAsync($"{URI}/_bulk_get");
+        var response = await _httpClient.GetAsync($"/_bulk_get?include_docs=true");
         if (!response.IsSuccessStatusCode)
         {
             return null;
@@ -47,7 +47,7 @@ public class GeneController
 
 		var content = new StringContent(requestBody, Encoding.UTF8, "application/json");
 
-		var response = await _httpClient.PostAsync($"{URI}/_find", content);
+		var response = await _httpClient.PostAsync($"/_find", content);
         if (!response.IsSuccessStatusCode)
         {
             return null;
@@ -59,31 +59,31 @@ public class GeneController
 
     // TODO: create functionality to add a new file to db
     // /oncologie/{Guid}
-    public async Task<string?> CreateAsync(string json)
+    public async Task<string?> CreateAsync(Dictionary<string, string> data)
     {
-        if (!CheckIfValidJson(json))
+        var pairedKeyValues = new Dictionary<string, string>();
+        string guid = Guid.NewGuid().ToString();
+        pairedKeyValues["id"] = guid;
+        foreach (var keyValuePair in data)
         {
-            return null;
+            pairedKeyValues[keyValuePair.Key] = keyValuePair.Value;
         }
-        
         var requestBody = JsonSerializer.Serialize(new
         {
-            Doc = JsonSerializer.Serialize(json)
+            Doc = pairedKeyValues
         });
 
         _httpClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
-        Guid id = new Guid();
-
         var content = new StringContent(requestBody, Encoding.UTF8, "application/json");
 
-        var response = await _httpClient.PostAsync($"{URI}/", content);
+        var response = await _httpClient.PostAsync($"/{guid}", content);
 
         return await response.Content.ReadAsStringAsync();
     }
 
     // TODO: create functionality to add bulk new files to db
     // /oncologie/_bulk_docs
-    public async Task<string?> BulkCreateAsync(string json)
+    /*public async Task<string?> BulkCreateAsync(string json)
     {
         if (!CheckIfValidJson(json))
         {
@@ -96,20 +96,7 @@ public class GeneController
 
         var content = new StringContent(requestBody, Encoding.UTF8, "application/json");
 
-    }
-
-    private static bool CheckIfValidJson(string json)
-    {
-        try
-        {
-            var obj = JsonSerializer.Deserialize<object>(json);
-            return true;
-        }
-        catch (JsonException)
-        {
-            return false;
-        }
-    }
+    }*/
 }
 
 
