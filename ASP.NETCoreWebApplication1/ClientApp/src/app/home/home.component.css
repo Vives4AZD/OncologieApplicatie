@@ -2,9 +2,22 @@
   margin-left: 500px
 }
 
-.row {
-  margin: 20px;
+h1 {
+  color: #1746A2
+}
+
+.search {
+  margin: 60px;
   max-width: 500px
+}
+
+.input {
+  max-width: 500px;
+}
+
+.list {
+  margin: 20px;
+
 }
 
 .table table-striped {
