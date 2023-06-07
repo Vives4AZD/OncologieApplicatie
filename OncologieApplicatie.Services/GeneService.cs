@@ -8,7 +8,7 @@ public class GeneService
     private string _password;
     private string _username;
     private HttpClient _httpClient;
-    private const string URI = "https://tiny-towns-swim.loca.lt/oncologie";
+    private const string URI = "https://thin-baths-dress.loca.lt/oncologie";
 
     public GeneService(string username, string password)
     {

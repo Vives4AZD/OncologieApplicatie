@@ -8,16 +8,30 @@ import {Router} from '@angular/router'
 })
 export class HomeComponent {
   gens:any;
+  filteredgens:any;
+  searchText="";
   constructor(private ss: SharedService, private router: Router) {
   }
   ngOnInit(): void {
     this.ss.GetAllGenes().subscribe( d =>{
       this.gens = d;
+      this.filteredgens = d;
     });
     console.log(this.gens);
   }
   GoToDetail(id: any){
     this.router.navigateByUrl('/detail')
+  }
+
+  searchKey(data:string)
+  {
+    this.searchText=data;
+    this.search();
+  }
+
+  search()
+  {
+    this.filteredgens = this.gens.rows.filter((t: { Gene: string; }) => t.Gene.toLowerCase()==this.searchText.toLowerCase())
   }
 }
 

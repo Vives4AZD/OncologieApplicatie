@@ -3,7 +3,8 @@
   </div>
   <div class="col-4">
     <!--<h1>Zoek op gen</h1>-->
-    <input type="text" placeholder="zoek">
+    <input type="text" id="search" [ngModel]="searchText" (ngModelChange)="searchKey($event)" placeholder="Find by name"
+           ngModel>
   </div>
 </div>
 
@@ -18,7 +19,7 @@
       <th scope="col" class="col"> </th>
       </thead>
       <tbody>
-        <tr *ngFor="let gen of gens.rows">
+        <tr *ngFor="let gen of filteredgens">
           <td>{{gen.doc.Protein}}</td>
           <td>{{gen.doc.cDNA}}</td>
           <td><button class="btn btn-primary" (click)="GoToDetail(gen.id)">Go to detail</button></td>
