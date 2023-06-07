@@ -1,4 +1,3 @@
-
 <div class="row">
   <div class="col-8">
   </div>
@@ -12,16 +11,16 @@
   <div class="col-3">
   </div>
   <div class="col-6">
-    <table class="table table-striped ">
+    <table id="dtBasicExample" class="table table-striped">
       <thead>
-      <th scope="col" class="col">Name Gene</th>
       <th scope="col" class="col">Gene Code</th>
+      <th scope="col" class="col">Name Code</th>
       <th scope="col" class="col"> </th>
       </thead>
       <tbody>
-        <tr *ngFor="let gen of gens">
-          <td>{{gen.Name}}</td>
-          <td>{{gen.Gencode}}</td>
+        <tr *ngFor="let gen of gens.rows">
+          <td>{{gen.doc.Protein}}</td>
+          <td>{{gen.doc.cDNA}}</td>
           <td><button class="btn btn-primary" (click)="GoToDetail(gen.id)">Go to detail</button></td>
         </tr>
       </tbody>

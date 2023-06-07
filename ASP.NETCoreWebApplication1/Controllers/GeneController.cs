@@ -13,7 +13,7 @@ public class GeneController : Controller
     public async Task<ActionResult> GetAllGenes()
     {
         var test = await  gc.GetAsync();
-        return Ok(gc.GetAsync());
+        return Ok(test);
     }
 
     [HttpGet("[action]/{id}")]

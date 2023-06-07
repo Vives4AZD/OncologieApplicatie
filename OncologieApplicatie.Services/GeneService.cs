@@ -8,7 +8,7 @@ public class GeneService
     private string _password;
     private string _username;
     private HttpClient _httpClient;
-    private const string URI = "https://all-islands-think.loca.lt/oncologie";
+    private const string URI = "https://tiny-towns-swim.loca.lt/oncologie";
 
     public GeneService(string username, string password)
     {
@@ -21,10 +21,12 @@ public class GeneService
 
     public async Task<string?> GetAsync()
     {
-        var response = await _httpClient.GetAsync($"{URI}/_bulk_get");
+        _httpClient.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "*");
+        var response = await _httpClient.GetAsync($"{URI}/_all_docs?include_docs=true");
+        Console.WriteLine(response);
         if (!response.IsSuccessStatusCode)
         {
-            return null;
+            return await response.Content.ReadAsStringAsync();
         }
         return await response.Content.ReadAsStringAsync();
     }
