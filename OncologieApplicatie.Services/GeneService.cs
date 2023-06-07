@@ -6,7 +6,7 @@ namespace OncologieApplicatie.Services;
 public class GeneService
 {
     private HttpClient _httpClient;
-    private const string URI = "https://khaki-walls-sit.loca.lt/oncologie";
+    private const string URI = "https://orange-knives-run.loca.lt/oncologie";
 
     public GeneService(string username, string password)
     {
@@ -18,10 +18,11 @@ public class GeneService
 
     public async Task<string?> GetAsync(bool includeDocumentValues = true)
     {
-        var response = await _httpClient.GetAsync(includeDocumentValues ? "/_bulk_get?include_docs=true" : "/_bulk_get");
+        string url = _httpClient.BaseAddress + "/_all_docs?include_docs=true";
+        var response = await _httpClient.GetAsync(includeDocumentValues ? "/_all_docs?include_docs=true" : "/_all_docs");
         if (!response.IsSuccessStatusCode)
         {
-            return null;
+            return await response.Content.ReadAsStringAsync();
         }
         return await response.Content.ReadAsStringAsync();
     }
