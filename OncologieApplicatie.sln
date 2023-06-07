@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{45777167-8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OncologieApplicatie.model", "OncologieApplicatie.model\OncologieApplicatie.model.csproj", "{6E314348-1CEF-42C8-B022-C774A83D3300}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASP.NETCoreWebApplication1", "ASP.NETCoreWebApplication1\ASP.NETCoreWebApplication1.csproj", "{05F50252-E37E-4304-A1D5-C319F2C74796}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OncologieApplicatie.UI", "ASP.NETCoreWebApplication1\OncologieApplicatie.UI.csproj", "{05F50252-E37E-4304-A1D5-C319F2C74796}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Console", "Console", "{5B3973AF-C7A4-4368-B9C0-08609BAD6B3B}"
 EndProject
