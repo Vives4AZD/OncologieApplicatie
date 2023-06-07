@@ -7,4 +7,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\OncologieApplicatie.Core.Controllers\OncologieApplicatie.Services.csproj" />
+    </ItemGroup>
+
 </Project>
