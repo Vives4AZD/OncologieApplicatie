@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OncologieApplicatie.Core.Controllers.OncologieApplicatie.Services;
+using OncologieApplicatie.Services;
 
 namespace ASP.NETCoreWebApplication1.Controllers;
 
