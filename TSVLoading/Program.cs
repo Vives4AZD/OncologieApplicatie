@@ -59,7 +59,6 @@ class Program
                 output = Path.Combine(outputPath, fileName);
 
                 File.WriteAllText(output, json);
-                record++;
 
                 Console.WriteLine($"{fileName} written successfully.");
             }
