@@ -29,17 +29,13 @@ public class GeneService
 
     public async Task<string?> FindAsync(Dictionary<string, string> data)
     {
-        string selector = "{\"selector\" : ";
+        var selector = new Dictionary<string, string>();
         foreach (var keyValuePair in data)
         {
-            selector += "{" + $"\"{keyValuePair.Key}\" : \"{keyValuePair.Value}\"" + "}";
+            selector.Add(keyValuePair.Key, keyValuePair.Value);
         }
 
-        selector += "}";
-
-        // _httpClient.DefaultRequestHeaders.Add("Content-Type", "application/json"); ;
-
-        var payload = new { selector = new { _id = "996c29314d61f5f8882c1a08c400048e" } };
+        var payload = new { selector };
         var response = await _httpClient.PostAsJsonAsync("_find", payload);
 
         if (!response.IsSuccessStatusCode)
