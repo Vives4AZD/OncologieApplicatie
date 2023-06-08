@@ -1,5 +1,5 @@
-﻿import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+﻿import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
 
 @Injectable({
@@ -11,7 +11,7 @@ export class SharedService{
   }
 
   //Getters
-  GetAllGenes() {return this.http.get("api/Gene/GetAllGenes")};
-  GetGeneByGuid(id: any) {return this.http.get("api/Gene/GetGeneByGuid/" + id)};
+  GetAllGenes() {return this.http.get("/Gene/GetAllGenes")};
+  GetGeneByGuid(id: any) {return this.http.get("/Gene/GetGeneByGuid/" + id)};
   //Setters
 }

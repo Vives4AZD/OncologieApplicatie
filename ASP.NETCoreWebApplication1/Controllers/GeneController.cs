@@ -1,20 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OncologieApplicatie.Services;
 
 namespace ASP.NETCoreWebApplication1.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("[Controller]")]
 public class GeneController : Controller
 {
+    private GeneService gc = new GeneService("admin", "admin123");
+    
     [HttpGet("[action]")]
-    public ActionResult GetAllGenes()
+    public async Task<ActionResult> GetAllGenes()
     {
-        return Ok();
+        var test = await  gc.GetAsync();
+        return Ok(test);
     }
 
     [HttpGet("[action]/{id}")]
-    public ActionResult GetGeneByGuid(Guid id)
+    public async Task<ActionResult> GetGeneByGuid(Guid id)
     {
-        return Ok();
+        var filter = new Dictionary<string, string>()
+        {
+            { "_id", id.ToString().Replace("-", "") }
+        };
+        var test = await gc.FindAsync(filter);
+        return Ok(test);
     }
 }

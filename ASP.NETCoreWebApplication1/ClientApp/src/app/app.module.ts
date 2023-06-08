@@ -20,7 +20,8 @@ import { DetailpageComponent } from './detailpage/detailpage.component';
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      {path:'detail', component: DetailpageComponent, pathMatch: 'full'}
+      { path: 'detail/:id' , component: DetailpageComponent, pathMatch: 'full' }
+      
     ])
   ],
   providers: [],

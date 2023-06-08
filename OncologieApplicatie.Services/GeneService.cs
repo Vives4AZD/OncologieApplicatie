@@ -40,6 +40,9 @@ public class GeneService
         return await response.Content.ReadAsStringAsync();
     }
 
+
+    // TODO: create functionality to add a new file to db
+    // /oncologie/{Guid}
     public async Task<string?> CreateAsync(Dictionary<string, string> data)
     {
         var id = Guid.NewGuid().ToString().Replace("-", "");
@@ -50,6 +53,15 @@ public class GeneService
         {
             return null;
         }
+        var requestBody = JsonSerializer.Serialize(new
+        {
+            Doc = pairedKeyValues
+        });
+
+        _httpClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
+        var content = new StringContent(requestBody, Encoding.UTF8, "application/json");
+
+        var response = await _httpClient.PostAsync($"/{guid}", content);
 
         return await response.Content.ReadAsStringAsync();
     }
