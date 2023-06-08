@@ -22,7 +22,7 @@ export class HomeComponent {
 
 
   GoToDetail(id: any) {
-    this.router.navigateByUrl('/detail')
+    this.router.navigateByUrl('/detail/' + id);
   }
 
   searchKey(data:string)

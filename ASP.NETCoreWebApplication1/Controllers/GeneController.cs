@@ -17,8 +17,13 @@ public class GeneController : Controller
     }
 
     [HttpGet("[action]/{id}")]
-    public ActionResult GetGeneByGuid(Guid id)
+    public async Task<ActionResult> GetGeneByGuid(Guid id)
     {
-        return Ok();
+        var filter = new Dictionary<string, string>()
+        {
+            { "_id", id.ToString().Replace("-", "") }
+        };
+        var test = await gc.FindAsync(filter);
+        return Ok(test);
     }
 }

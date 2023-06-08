@@ -1,15 +1,25 @@
+<div class="row titleDiv">
+  <div class="col-2">
+  </div>
+  <div class="col-8">
+    <h1 class="title">Gene Database</h1>
+  </div>
+  <div class="col-2">
+  </div>
+</div>
+
+
 <div class="row">
   <div class="col-8">
   </div>
   <div class="col-4">
-    <!--<h1>Zoek op gen</h1>-->
-    <input type="text" id="search" [ngModel]="searchText" (ngModelChange)="searchKey($event)" placeholder="Find by name"
+    <input type="text" id="search" [ngModel]="searchText" (ngModelChange)="searchKey($event)" placeholder="Zoek op naam"
            ngModel>
   </div>
-  <div class="col-2 btnSearch">
-    <button class="btn btn-primary" (click)="Search()">Zoek</button>
-  </div>
+
 </div>
+
+
 
 <div class="row">
   <div class="col-3">

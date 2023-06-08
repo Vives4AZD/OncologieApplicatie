@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net.Http.Json;
+using System.Text;
 using System.Text.Json;
 
 namespace OncologieApplicatie.Services;
@@ -6,7 +7,7 @@ namespace OncologieApplicatie.Services;
 public class GeneService
 {
     private HttpClient _httpClient;
-    private const string URI = "https://chubby-papayas-arrive.loca.lt/oncologie/";
+    private const string URI = "https://fine-garlics-type.loca.lt/oncologie/";
 
     public GeneService(string username, string password)
     {
@@ -28,22 +29,19 @@ public class GeneService
 
     public async Task<string?> FindAsync(Dictionary<string, string> data)
     {
-        var filter = new Dictionary<string, string>();
+        string selector = "{\"selector\" : ";
         foreach (var keyValuePair in data)
         {
-            filter[keyValuePair.Key] = keyValuePair.Value;
+            selector += "{" + $"\"{keyValuePair.Key}\" : \"{keyValuePair.Value}\"" + "}";
         }
 
-        var requestBody = JsonSerializer.Serialize(new
-        {
-            Selector = filter
-        });
+        selector += "}";
 
-        _httpClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
+        // _httpClient.DefaultRequestHeaders.Add("Content-Type", "application/json"); ;
 
-        var content = new StringContent(requestBody, Encoding.UTF8, "application/json");
+        var payload = new { selector = new { _id = "996c29314d61f5f8882c1a08c400048e" } };
+        var response = await _httpClient.PostAsJsonAsync("_find", payload);
 
-        var response = await _httpClient.PostAsync($"/_find", content);
         if (!response.IsSuccessStatusCode)
         {
             return null;
