@@ -1,29 +1,24 @@
 ﻿using System.Text;
 using System.Text.Json;
 
-namespace OncologieApplicatie.Core.Controllers.OncologieApplicatie.Services;
+namespace OncologieApplicatie.Services;
 
 public class GeneService
 {
-    private string _password;
-    private string _username;
     private HttpClient _httpClient;
-    private const string URI = "https://thin-baths-dress.loca.lt/oncologie";
+    private const string URI = "https://chubby-papayas-arrive.loca.lt/oncologie/";
 
     public GeneService(string username, string password)
     {
-        _username = username; //"admin";
-        _password = password; //"admin123";
-        string encoded = System.Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(_username + ":" + _password));
+        string encoded = System.Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(username + ":" + password));
         _httpClient = new HttpClient();
         _httpClient.DefaultRequestHeaders.Add("Authorization", "Basic " + encoded);
+        _httpClient.BaseAddress = new Uri(URI);
     }
 
-    public async Task<string?> GetAsync()
+    public async Task<string?> GetAsync(bool includeDocumentValues = true)
     {
-        _httpClient.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "*");
-        var response = await _httpClient.GetAsync($"{URI}/_all_docs?include_docs=true");
-        Console.WriteLine(response);
+        var response = await _httpClient.GetAsync(includeDocumentValues ? $"_all_docs?include_docs=true" : "_all_docs");
         if (!response.IsSuccessStatusCode)
         {
             return await response.Content.ReadAsStringAsync();
@@ -31,10 +26,8 @@ public class GeneService
         return await response.Content.ReadAsStringAsync();
     }
 
-    public async Task<string?> Find(Dictionary<string, string> data)
+    public async Task<string?> FindAsync(Dictionary<string, string> data)
     {
-        var contentType = "application/json";
-
         var filter = new Dictionary<string, string>();
         foreach (var keyValuePair in data)
         {
@@ -46,11 +39,11 @@ public class GeneService
             Selector = filter
         });
 
-        _httpClient.DefaultRequestHeaders.Add("Content-Type", contentType);
+        _httpClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
 
-        var content = new StringContent(requestBody, Encoding.UTF8, contentType);
+        var content = new StringContent(requestBody, Encoding.UTF8, "application/json");
 
-        var response = await _httpClient.PostAsync($"{URI}/_find", content);
+        var response = await _httpClient.PostAsync($"/_find", content);
         if (!response.IsSuccessStatusCode)
         {
             return null;
@@ -58,4 +51,49 @@ public class GeneService
 
         return await response.Content.ReadAsStringAsync();
     }
+
+
+    // TODO: create functionality to add a new file to db
+    // /oncologie/{Guid}
+    public async Task<string?> CreateAsync(Dictionary<string, string> data)
+    {
+        var pairedKeyValues = new Dictionary<string, string>();
+        string guid = Guid.NewGuid().ToString();
+        pairedKeyValues["id"] = guid;
+        foreach (var keyValuePair in data)
+        {
+            pairedKeyValues[keyValuePair.Key] = keyValuePair.Value;
+        }
+        var requestBody = JsonSerializer.Serialize(new
+        {
+            Doc = pairedKeyValues
+        });
+
+        _httpClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
+        var content = new StringContent(requestBody, Encoding.UTF8, "application/json");
+
+        var response = await _httpClient.PostAsync($"/{guid}", content);
+
+        return await response.Content.ReadAsStringAsync();
+    }
+
+    /*public async Task<string?> BulkCreateAsync(string json)
+    {
+        if (!CheckIfValidJson(json))
+        {
+            return null;
+        }
+
+        
+        
+        _httpClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
+
+        var content = new StringContent(requestBody, Encoding.UTF8, "application/json");
+
+    }*/
 }
+
+
+
+
+
