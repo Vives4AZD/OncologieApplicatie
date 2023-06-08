@@ -16,7 +16,9 @@ export class HomeComponent {
     });
     console.log(this.gens);
   }
-  GoToDetail(id: any){
+
+
+  GoToDetail(id: any) {
     this.router.navigateByUrl('/detail')
   }
 }
