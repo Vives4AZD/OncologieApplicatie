@@ -2,24 +2,29 @@
 <div class="d-flex justify-content-center" style="position: absolute; top: 50%; left: 50%" *ngIf="!gen">
   <span class="sr-only" id="loading"></span>
 </div>
-<div *ngIf="gen">
-  <div class="row titleDiv">
-    <div class="col-2">
-    </div>
-    <div class="col-8">
-      <h1 class="title">Gene Details</h1>
-    </div>
-    <div class="col-2">
-    </div>
-  </div>
 
-  <div class="row" *ngFor="let key of getObjectKeys(this.gen.docs[0])">
-    <div class="col">
+
+<div class="row titleDiv">
+  <div class="col-2">
+  </div>
+  <div class="col-8">
+    <h1 class="title">Gene Details</h1>
+  </div>
+  <div class="col-2">
+  </div>
+</div>
+
+<div *ngIf="gen" class="tableDiv">
+  <div class="row table" *ngFor="let key of getObjectKeys(this.gen.docs[0])">
+    <div class="col-3"></div>
+    <div class="col-3 key">
       {{ key }}
     </div>
-    <div class="col">
+    <div class="col-3 value">
       {{ gen.docs[0][key] }}
     </div>
+    <div class="col-3"></div>
   </div>
-  <button class="btn btn-primary" (click)="NavigateBack()">Back</button>
 </div>
+
+<button class="btn btn-primary" (click)="NavigateBack()">Back</button>

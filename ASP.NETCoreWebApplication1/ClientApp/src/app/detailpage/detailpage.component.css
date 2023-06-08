@@ -1,3 +1,25 @@
+.titleDiv {
+  margin-left: 250px;
+  padding-bottom: 50px
+}
+
+.title {
+  color: #1746A2;
+  font-size: 60px
+}
+.table {
+  margin: 5px
+}
+
+.key {
+  color: #1746A2;
+  font-weight: bold
+}
+
+.value {
+  color: #1746A2;
+}
+
 #loading{
   position: absolute;
   left: 50%;
@@ -17,4 +39,8 @@
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.btn {
+  margin: 100px
 }
