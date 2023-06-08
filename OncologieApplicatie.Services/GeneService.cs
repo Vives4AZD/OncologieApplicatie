@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.Json;
+using System.Net.Http;
 
 namespace OncologieApplicatie.Services;
 
@@ -8,7 +9,7 @@ public class GeneService
     private HttpClient _httpClient;
     private const string URI = "https://chubby-papayas-arrive.loca.lt/oncologie/";
 
-    public GeneService(string username, string password)
+    public GeneService(string username, string password, IHttpClientFactory httpClientFactory)
     {
         string encoded = System.Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(username + ":" + password));
         _httpClient = new HttpClient();
