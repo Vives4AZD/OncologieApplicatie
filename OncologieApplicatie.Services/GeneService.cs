@@ -17,63 +17,76 @@ public class GeneService
         _httpClient.BaseAddress = new Uri(URI);
     }
 
+    /// <summary>
+    /// Gets all the documents from the database.
+    /// </summary>
+    /// <param name="includeDocumentValues">A flag indicating whether to include document values in the response.</param>
+    /// <returns>All the documents as a JSON string.</returns>
     public async Task<string?> GetAsync(bool includeDocumentValues = true)
     {
+        // Send an HTTP GET request to the _all_docs endpoint with the include_docs parameter set to true/false based on the value of includeDocumentValues
         var response = await _httpClient.GetAsync(includeDocumentValues ? $"_all_docs?include_docs=true" : "_all_docs");
+
+        // If the response was not successful, return the error message as a string
         if (!response.IsSuccessStatusCode)
         {
             return await response.Content.ReadAsStringAsync();
         }
+
+        // Otherwise, return the response content as a string
         return await response.Content.ReadAsStringAsync();
     }
 
+
+    /// <summary>
+    /// Finds one (or more) documents in the database.
+    /// </summary>
+    /// <param name="data">The data on which to find. The keys are the names of the filter (ex: _id) and the value is the value of said filter.</param>
+    /// <returns>The found document(s) as a json string.</returns>
     public async Task<string?> FindAsync(Dictionary<string, string> data)
     {
+        // Create a payload object with a selector property that contains the data dictionary
         var payload = new { selector = data };
+
+        // Send a POST request with the payload to the "_find" endpoint using the HttpClient
         var response = await _httpClient.PostAsJsonAsync("_find", payload);
 
+        // If the response is not successful, return null
         if (!response.IsSuccessStatusCode)
         {
             return null;
         }
 
+        // Otherwise, read the response content as a string and return it
         return await response.Content.ReadAsStringAsync();
     }
 
+
+    /// <summary>
+    /// Creates a new document in the database.
+    /// </summary>
+    /// <param name="data">
+    /// The data for the document. The keys are the names of the variables (ex: _id) and the value is the value of said variable.
+    /// </param>
+    /// <returns>The created document.</returns>
     public async Task<string?> CreateAsync(Dictionary<string, string> data)
     {
-        var id = Guid.NewGuid().ToString().Replace("-", "");
-        var payload = new { _id = id, doc = data };
-        var response = await _httpClient.PostAsJsonAsync($"/{id}", payload);
+        // Generate a new unique id for the document
+        var guid = Guid.NewGuid().ToString().Replace("-", "");
 
+        // Construct the payload object with the new id and the document data
+        var payload = new { _id = guid, doc = data };
+
+        // Send a POST request with the payload to create the new document
+        var response = await _httpClient.PostAsJsonAsync($"/{guid}", payload);
+
+        // If the request was not successful, return null
         if (!response.IsSuccessStatusCode)
         {
             return null;
         }
 
-        return await response.Content.ReadAsStringAsync();
+        // Otherwise, find and return the newly created document
+        return await FindAsync(new Dictionary<string, string>(){ { "_id", guid } });
     }
-
-
-
-
-    /*public async Task<string?> BulkCreateAsync(string json)
-    {
-        if (!CheckIfValidJson(json))
-        {
-            return null;
-        }
-
-        
-        
-        _httpClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
-
-        var content = new StringContent(requestBody, Encoding.UTF8, "application/json");
-
-    }*/
 }
-
-
-
-
-
