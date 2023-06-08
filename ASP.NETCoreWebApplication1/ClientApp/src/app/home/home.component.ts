@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {SharedService} from "../services/shared.service";
 import {Router} from '@angular/router'
+import {filter} from "rxjs";
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -15,7 +16,6 @@ export class HomeComponent {
   ngOnInit(): void {
     this.ss.GetAllGenes().subscribe( d =>{
       this.gens = d;
-      this.filteredgens = d;
     });
     console.log(this.gens);
   }
@@ -25,13 +25,22 @@ export class HomeComponent {
 
   searchKey(data:string)
   {
+    if (data == ""){
+      this.filteredgens = null;
+      return;
+    }
     this.searchText=data;
+    console.log("searchkeys")
     this.search();
   }
 
   search()
   {
-    this.filteredgens = this.gens.rows.filter((t: { Gene: string; }) => t.Gene.toLowerCase()==this.searchText.toLowerCase())
+    console.log(this.searchText.toLowerCase().trim());
+    this.filteredgens = this.gens.rows.filter((t: { doc: { Gene: string; }; }) => t.doc.Gene.toLowerCase().trim().includes(this.searchText.toLowerCase().trim()));
+
   }
+
+  protected readonly filter = filter;
 }
 
