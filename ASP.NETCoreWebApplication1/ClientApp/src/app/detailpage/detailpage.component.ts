@@ -25,4 +25,7 @@ export class DetailpageComponent {
   NavigateBack() {
     this.router.navigateByUrl('');
   }
+  getObjectKeys(obj: any): string[] {
+    return Object.keys(obj);
+  }
 }
