@@ -29,13 +29,7 @@ public class GeneService
 
     public async Task<string?> FindAsync(Dictionary<string, string> data)
     {
-        var selector = new Dictionary<string, string>();
-        foreach (var keyValuePair in data)
-        {
-            selector.Add(keyValuePair.Key, keyValuePair.Value);
-        }
-
-        var payload = new { selector };
+        var payload = new { selector = data };
         var response = await _httpClient.PostAsJsonAsync("_find", payload);
 
         if (!response.IsSuccessStatusCode)
@@ -46,20 +40,11 @@ public class GeneService
         return await response.Content.ReadAsStringAsync();
     }
 
-
-    // TODO: create functionality to add a new file to db
-    // /oncologie/{Guid}
     public async Task<string?> CreateAsync(Dictionary<string, string> data)
     {
-        var docs = new Dictionary<string, string>();
-        string guid = Guid.NewGuid().ToString().Replace("-", "");
-        foreach (var keyValuePair in data)
-        {
-            docs.Add(keyValuePair.Key, keyValuePair.Value);
-        }
-
-        var payload = new { docs };
-        var response = await _httpClient.PostAsJsonAsync($"/{guid}", payload);
+        var id = Guid.NewGuid().ToString().Replace("-", "");
+        var payload = new { _id = id, data };
+        var response = await _httpClient.PostAsJsonAsync($"/{id}", payload);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -68,6 +53,7 @@ public class GeneService
 
         return await response.Content.ReadAsStringAsync();
     }
+
 
     /*public async Task<string?> BulkCreateAsync(string json)
     {
