@@ -28,3 +28,9 @@ code {
   height: 150px;
   width: 150px;
 }
+
+.detail-image {
+
+  width: 500px;
+  height: 400px;
+}
