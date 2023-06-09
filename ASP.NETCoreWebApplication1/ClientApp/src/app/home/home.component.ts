@@ -60,5 +60,11 @@ export class HomeComponent {
   }
 
   protected readonly String = String;
+
+  navigateToEditPage(id: any) {
+    this.router.navigateByUrl(`/edit-gene/${id}`);
+  }
+
+  
 }
 

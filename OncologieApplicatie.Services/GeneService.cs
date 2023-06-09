@@ -89,4 +89,26 @@ public class GeneService
         // Otherwise, find and return the newly created document
         return await FindAsync(new Dictionary<string, string>(){ { "_id", guid } });
     }
+
+    public async Task<string?> UpdateAsync(string documentId, string revision, Dictionary<string, string> updatedData)
+    {
+	    // Add the _id and _rev properties to the updatedData dictionary
+	    updatedData["_id"] = documentId;
+	    updatedData["_rev"] = revision;
+
+	    // Send a PUT request with the updatedData dictionary as the request body
+	    var response = await _httpClient.PutAsJsonAsync(documentId, updatedData);
+
+	    // If the request was not successful, return null
+	    if (!response.IsSuccessStatusCode)
+	    {
+		    return null;
+	    }
+
+	    // Otherwise, find and return the updated document
+	    return await FindAsync(new Dictionary<string, string>() { { "_id", documentId } });
+    }
+
+
+
 }

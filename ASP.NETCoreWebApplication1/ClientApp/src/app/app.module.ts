@@ -7,12 +7,14 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { DetailpageComponent } from './detailpage/detailpage.component';
+import { EditGeneComponent } from './edit-gene/edit-gene.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     DetailpageComponent,
+    EditGeneComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -20,7 +22,8 @@ import { DetailpageComponent } from './detailpage/detailpage.component';
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'detail/:id' , component: DetailpageComponent, pathMatch: 'full' }
+      { path: 'detail/:id', component: DetailpageComponent, pathMatch: 'full' },
+      { path: 'edit-gene/:id', component: EditGeneComponent, pathMatch: 'full' }
       
     ])
   ],

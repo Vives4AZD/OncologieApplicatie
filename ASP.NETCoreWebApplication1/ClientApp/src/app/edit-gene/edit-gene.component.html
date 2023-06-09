@@ -1,0 +1,48 @@
+<div class="d-flex justify-content-center" style="position: absolute; top: 50%; left: 50%" *ngIf="!geneData">
+  <span class="sr-only" id="loading"></span>
+</div>
+
+<div class="row titleDiv">
+  <div class="col-2"></div>
+  <div class="col-8">
+    <h1 class="title">Gene Details</h1>
+  </div>
+  <div class="col-2"></div>
+</div>
+
+<div *ngIf="geneData" class="tableDiv">
+  <div class="row table" *ngFor="let key of getObjectKeys(geneData.docs[0])">
+    <div class="col-3"></div>
+
+    <div class="col-3 key" *ngIf="key !== 'images'">
+      {{ key }}
+    </div>
+
+    <div class="col-3 value" *ngIf="key !== 'images'">
+      <input type="text" class="form-control" [(ngModel)]="geneData.docs[0][key]" [name]="key">
+    </div>
+
+    <div class="col-3"></div>
+  </div>
+</div>
+
+<div *ngIf="geneData" class="tableDiv">
+  <div class="row table" *ngFor="let key of getObjectKeys(geneData.docs[0])">
+    <div class="col-3"></div>
+
+    <div class="col-3 key" *ngIf="key === 'images'">
+      {{ key }}
+    </div>
+
+    <div class="col-3 value" *ngIf="key === 'images'">
+      <div *ngFor="let item of geneData.docs[0][key]">
+        <img [src]="item.src" [alt]="item.title" class="detail-image">
+      </div>
+    </div>
+
+    <div class="col-3"></div>
+  </div>
+</div>
+
+<button class="btn btn-primary" (click)="updateGene()">Update</button>
+<button class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>

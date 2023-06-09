@@ -25,11 +25,14 @@
         <th scope="col" class="col" style="color: #1746A2"> </th>
         </thead>
         <tbody>
-        <tr *ngFor="let gen of filteredgens">
-          <td style="color: #1746A2">{{gen.doc.Gene}}</td>
-          <td style="color: #1746A2">{{gen.doc.cDNA}}</td>
-          <td style="color: #1746A2"><button class="btn btn-primary" (click)="GoToDetail(gen.id)">Go to detail</button></td>
-        </tr>
+          <tr *ngFor="let gen of filteredgens">
+            <td style="color: #1746A2">{{gen.doc.Gene}}</td>
+            <td style="color: #1746A2">{{gen.doc.cDNA}}</td>
+            <td style="color: #1746A2"><button class="btn btn-primary" (click)="GoToDetail(gen.id)">Go to detail</button></td>
+            <td>
+              <button class="btn btn-primary" (click)="navigateToEditPage(gen.id)">Edit</button>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
