@@ -7,7 +7,7 @@ namespace OncologieApplicatie.Services;
 public class GeneService
 {
     private HttpClient _httpClient;
-    private const string URI = "https://real-baths-beg.loca.lt/oncologie/";
+    private const string URI = "https://funny-hands-write.loca.lt/oncologie/";
 
     public GeneService(string username, string password)
     {
@@ -64,21 +64,22 @@ public class GeneService
 
     /// <summary>
     /// Creates a new document in the database.
+    /// <summary>
+    /// Creates a new document in the database.
     /// </summary>
-    /// <param name="data">
-    /// The data for the document. The keys are the names of the variables (ex: _id) and the value is the value of said variable.
+    /// <param name="docPayload">
+    /// The payload data for the document. The keys are the names of the variables (ex: Gene) and the value is the value of said variable.
+    /// This method adds an id automatically, do not add it manually.
     /// </param>
     /// <returns>The created document.</returns>
-    public async Task<string?> CreateAsync(Dictionary<string, string> data)
+    public async Task<string?> CreateAsync(Dictionary<string, object> docPayload)
     {
         // Generate a new unique id for the document
         var guid = Guid.NewGuid().ToString().Replace("-", "");
-
-        // Construct the payload object with the new id and the document data
-        var payload = new { _id = guid, doc = data };
+        docPayload.Add("_id", guid);
 
         // Send a POST request with the payload to create the new document
-        var response = await _httpClient.PostAsJsonAsync($"/{guid}", payload);
+        var response = await _httpClient.PostAsJsonAsync($"", docPayload);
 
         // If the request was not successful, return null
         if (!response.IsSuccessStatusCode)

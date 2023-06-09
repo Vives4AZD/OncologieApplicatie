@@ -13,6 +13,8 @@ export class HomeComponent {
   searchText="";
   searchPosition = "";
 
+  createdGenePosition:any;
+
   GenNames: any = [];
   NewGenposition: any = {
     'Gene':"",
@@ -25,10 +27,7 @@ export class HomeComponent {
   constructor(private ss: SharedService, private router: Router) {
   }
   ngOnInit(): void {
-    this.ss.GetAllGenes().subscribe( d =>{
-      this.gens = d;
-      this.GetUniqueGeneName();
-    });
+    this.RefreshList();
   }
 
 
@@ -86,6 +85,22 @@ export class HomeComponent {
       'Tier': ""
     }
     this.showModalAddGenePosition = false;
+  }
+
+  AddGeneposition(){
+    this.ss.CreateGenePosition(this.NewGenposition).subscribe(d =>{
+
+      this.createdGenePosition = d;
+      console.log(d);
+      this.RefreshList();
+      this.showModalAddGenePosition = false;
+    });
+  }
+  RefreshList(){
+    this.ss.GetAllGenes().subscribe( d =>{
+      this.gens = d;
+      this.GetUniqueGeneName();
+    });
   }
 
   protected readonly String = String;
