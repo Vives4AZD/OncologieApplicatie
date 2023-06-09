@@ -109,16 +109,6 @@ public class GeneService
     /// <returns></returns>
     public async Task<string?> UpdateAsync(string id, Dictionary<string, object?> updatePayload)
     {
-        /*var toUpdate = FindAsync(new Dictionary<string, object>(){ { "_id", id } }).Result;
-        var toUpdateResponse = JsonSerializer.Deserialize<Dictionary<string, object>>(toUpdate!);
-        var updatePayload = (Dictionary<string, object>)toUpdateResponse["docs"];
-
-
-        foreach (var kvp in updateData)
-        {
-            updatePayload![kvp.Key] = kvp.Value;
-        }*/
-
         var response = await _httpClient.PutAsJsonAsync($"{id}", updatePayload!);
 
         if (!response.IsSuccessStatusCode)
