@@ -21,7 +21,7 @@ public class GeneService
     /// Gets all the documents from the database.
     /// </summary>
     /// <param name="includeDocumentValues">A flag indicating whether to include document values in the response.</param>
-    /// <returns>All the documents as a JSON string.</returns>
+    /// <returns>All the documents as a json string.</returns>
     public async Task<string?> GetAsync(bool includeDocumentValues = true)
     {
         // Send an HTTP GET request to the _all_docs endpoint with the include_docs parameter set to true/false based on the value of includeDocumentValues
@@ -64,18 +64,27 @@ public class GeneService
 
     /// <summary>
     /// Creates a new document in the database.
-    /// <summary>
-    /// Creates a new document in the database.
     /// </summary>
     /// <param name="docPayload">
     /// The payload data for the document. The keys are the names of the variables (ex: Gene) and the value is the value of said variable.
     /// This method adds an id automatically, do not add it manually.
     /// </param>
-    /// <returns>The created document.</returns>
+    /// <returns>The created document as a json string.</returns>
     public async Task<string?> CreateAsync(Dictionary<string, object> docPayload)
     {
         // Generate a new unique id for the document
         var guid = Guid.NewGuid().ToString().Replace("-", "");
+        
+        if (docPayload.ContainsKey("_id"))
+        {
+            docPayload.Remove("_id");
+        }
+
+        if (docPayload.ContainsKey("_rev"))
+        {
+            docPayload.Remove("_rev");
+        }
+
         docPayload.Add("_id", guid);
 
         // Send a POST request with the payload to create the new document
@@ -91,7 +100,42 @@ public class GeneService
         return await FindAsync(new Dictionary<string, object>(){ { "_id", guid } });
     }
 
+    /// <summary>
+    /// Updates an existing document in the database.
+    /// </summary>
+    /// <param name="id">The id of the document that needs to be updated.</param>
+    /// <param name="updateData">The data to update the existing object with.</param>
+    /// <returns></returns>
+    public async Task<string?> UpdateAsync(string id, Dictionary<string, object> updateData)
+    {
+        var toUpdate = FindAsync(new Dictionary<string, object>(){ { "_id", id } }).Result;
 
+        var updatePayload = JsonSerializer.Deserialize<Dictionary<string, object>>(toUpdate!);
+        foreach (var kvp in updateData)
+        {
+            updatePayload![kvp.Key] = kvp.Value;
+        }
+
+        var response = await _httpClient.PutAsJsonAsync($"/{id}", updatePayload!);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return null;
+        }
+
+        return await FindAsync(new Dictionary<string, object>() { { "_id", id } });
+    }
+
+
+
+    //currently unused!!
+    /// <summary>
+    /// When uploading a tsv or csv file, this will push all the records in said file to the db
+    /// </summary>
+    /// <param name="svData">The stream gotten from the angular side (unfinished)</param>
+    /// <param name="extension">The extension of the file. Has to be either .csv or .tsv</param>
+    /// <returns>A boolean where true means that the server has added the documents.</returns>
+    /// <exception cref="Exception">Throws an exception if the filetype is unsupported</exception>
     public async Task<bool> CreateBulkAsync(Stream svData, string extension)
     {
         if (!extension.StartsWith('.'))
