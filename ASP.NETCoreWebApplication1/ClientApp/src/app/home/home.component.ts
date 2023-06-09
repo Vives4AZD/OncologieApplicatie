@@ -42,6 +42,10 @@ export class HomeComponent {
 
   }
 
+  goToCreatePage() {
+    this.router.navigateByUrl('/create');
+  }
+
   protected readonly filter = filter;
 }
 

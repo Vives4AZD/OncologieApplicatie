@@ -26,4 +26,19 @@ public class GeneController : Controller
         var test = await gc.FindAsync(filter);
         return Ok(test);
     }
+
+
+    [HttpPost("[action]")]
+    public async Task<ActionResult> CreateGene([FromBody] Dictionary<string, string> data)
+    {
+	    var createdGene = await gc.CreateAsync(data);
+	    if (createdGene == null)
+	    {
+		    return BadRequest("Failed to create the gene.");
+	    }
+
+	    return Ok(createdGene);
+    }
+
 }
+
