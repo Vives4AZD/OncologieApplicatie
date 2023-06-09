@@ -10,7 +10,11 @@ import { SharedService } from '../services/shared.service';
 export class DetailpageComponent {
   gen: any;
   genId: any;
+
+
   constructor(private ss: SharedService, private router: Router, private route: ActivatedRoute) {
+
+
   }
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -20,7 +24,9 @@ export class DetailpageComponent {
       this.gen = d;
       console.log(this.gen);
     });
+
   }
+
 
   NavigateBack() {
     this.router.navigateByUrl('');
