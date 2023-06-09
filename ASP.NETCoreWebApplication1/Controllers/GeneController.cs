@@ -1,4 +1,5 @@
 ﻿using System.Dynamic;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using OncologieApplicatie.Services;
 
@@ -34,6 +35,14 @@ public class GeneController : Controller
         var myObject = new Dictionary<string, object?>(body);
         var test = await gc.CreateAsync(myObject);
         
+        return Ok(test);
+    }
+
+    [HttpPost("[action]/{id}")]
+    public async Task<ActionResult> UpdateGenePosition([FromRoute] Guid id, [FromBody] ExpandoObject body)
+    {
+        var myObject = new Dictionary<string, object?>(body);
+        var test = await gc.UpdateAsync(id.ToString().Replace("-",""), myObject);
         return Ok(test);
     }
 }

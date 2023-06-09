@@ -10,6 +10,14 @@ import { SharedService } from '../services/shared.service';
 export class DetailpageComponent {
   gen: any;
   genId: any;
+
+  OriginKey: any;
+  OriginValue:any;
+
+  KeyToUpdate: any;
+  ValuetoUpdate: any;
+
+  ShowUpdateModal: boolean= false;
   constructor(private ss: SharedService, private router: Router, private route: ActivatedRoute) {
   }
   ngOnInit(): void {
@@ -27,5 +35,26 @@ export class DetailpageComponent {
   }
   getObjectKeys(obj: any): string[] {
     return Object.keys(obj);
+  }
+  OpenModalUpdate(key: any, value:any){
+    this.ShowUpdateModal = true;
+
+    this.OriginKey = key;
+    this.OriginValue = value;
+
+    this.KeyToUpdate = key;
+    this.ValuetoUpdate = value;
+  }
+  UpdateGenePosition(){
+    console.log(this.gen.docs[0]);
+    for (let key in this.gen.docs[0]){
+      if (key == this.OriginKey){
+        key = this.KeyToUpdate;
+      }
+    }
+    console.log(this.gen.docs[0]);
+    console.log(this.gen);
+    this.ss.UpdateGenePosition(this.gen.docs[0], this.genId).subscribe(d =>{
+    });
   }
 }

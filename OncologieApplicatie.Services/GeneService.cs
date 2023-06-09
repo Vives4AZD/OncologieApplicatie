@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace OncologieApplicatie.Services;
 
@@ -106,17 +107,19 @@ public class GeneService
     /// <param name="id">The id of the document that needs to be updated.</param>
     /// <param name="updateData">The data to update the existing object with.</param>
     /// <returns></returns>
-    public async Task<string?> UpdateAsync(string id, Dictionary<string, object> updateData)
+    public async Task<string?> UpdateAsync(string id, Dictionary<string, object?> updatePayload)
     {
-        var toUpdate = FindAsync(new Dictionary<string, object>(){ { "_id", id } }).Result;
+        /*var toUpdate = FindAsync(new Dictionary<string, object>(){ { "_id", id } }).Result;
+        var toUpdateResponse = JsonSerializer.Deserialize<Dictionary<string, object>>(toUpdate!);
+        var updatePayload = (Dictionary<string, object>)toUpdateResponse["docs"];
 
-        var updatePayload = JsonSerializer.Deserialize<Dictionary<string, object>>(toUpdate!);
+
         foreach (var kvp in updateData)
         {
             updatePayload![kvp.Key] = kvp.Value;
-        }
+        }*/
 
-        var response = await _httpClient.PutAsJsonAsync($"/{id}", updatePayload!);
+        var response = await _httpClient.PutAsJsonAsync($"{id}", updatePayload!);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -183,7 +186,7 @@ public class GeneService
 
         var payload = new { docs = bulkDocs };
 
-        var response = await _httpClient.PostAsJsonAsync($"/_all_docs", payload);
+        var response = await _httpClient.PostAsJsonAsync($"_all_docs", payload);
 
         return response.IsSuccessStatusCode;
     }

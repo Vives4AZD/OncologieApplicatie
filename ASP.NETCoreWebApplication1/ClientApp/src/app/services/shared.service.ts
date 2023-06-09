@@ -16,4 +16,5 @@ export class SharedService{
   GetGeneByGuid(id: any) {return this.http.get("/Gene/GetGeneByGuid/" + id)};
   //Setters
   CreateGenePosition(genePosition: any) {return this.http.post("/Gene/CreateGenePosition" , genePosition )}
+  UpdateGenePosition(genePosition:any, id:any) {return this.http.post("/Gene/UpdateGenePosition/" + id , genePosition)}
 }

@@ -18,7 +18,8 @@
   <div class="row table" *ngFor="let key of getObjectKeys(this.gen.docs[0])">
     <div class="col-3"></div>
     <div class="col-3 key">
-      {{ key }}
+      <a (click)="OpenModalUpdate(key, gen.docs[0][key])" *ngIf="key != '_id' && key != '_rev'">{{ key }}</a>
+      <span *ngIf="key == '_id' || key == '_rev'">{{ key }}</span>
     </div>
     <div class="col-3 value">
       {{ gen.docs[0][key] }}
@@ -27,4 +28,33 @@
   </div>
 </div>
 
+<div class="modal fade" [ngClass]="{'show': ShowUpdateModal, 'hidden': !ShowUpdateModal}" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Add a position to an existing Gene</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="ShowUpdateModal = false">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col">
+            <input type="text" [(ngModel)]="KeyToUpdate" *ngIf="KeyToUpdate != 'cDNA' && KeyToUpdate != 'Gene'">
+            <p *ngIf="KeyToUpdate == 'cDNA' || KeyToUpdate == 'Gene'">{{KeyToUpdate}}</p>
+          </div>
+          <div class="col">
+            <input type="text" [(ngModel)]="ValuetoUpdate">
+          </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="UpdateGenePosition()">Wijzigen</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="ShowUpdateModal = false">Sluiten</button>
+      </div>
+    </div>
+  </div>
+    </div>
+  </div>
+</div>
 <button class="btn btn-primary" (click)="NavigateBack()">Back</button>
