@@ -43,7 +43,7 @@ public class GeneService
     /// </summary>
     /// <param name="data">The data on which to find. The keys are the names of the filter (ex: _id) and the value is the value of said filter.</param>
     /// <returns>The found document(s) as a json string.</returns>
-    public async Task<string?> FindAsync(Dictionary<string, string> data)
+    public async Task<string?> FindAsync(Dictionary<string, object> data)
     {
         // Create a payload object with a selector property that contains the data dictionary
         var payload = new { selector = data };
@@ -88,6 +88,59 @@ public class GeneService
         }
 
         // Otherwise, find and return the newly created document
-        return await FindAsync(new Dictionary<string, string>(){ { "_id", guid } });
+        return await FindAsync(new Dictionary<string, object>(){ { "_id", guid } });
+    }
+
+
+    public async Task<bool> CreateBulkAsync(Stream svData, string extension)
+    {
+        if (!extension.StartsWith('.'))
+        {
+            extension = '.' + extension;
+        }
+
+        string? header = null;
+        string[] keys = new string[] { };
+        List<Dictionary<string, object>> bulkDocs = new List<Dictionary<string, object>>();
+        string? separator = extension switch
+        {
+            ".csv" => ",",
+            ".tsv" => "\t",
+            _ => throw new Exception("Unsupported filetype.")
+        };
+
+        using (var reader = new StreamReader(svData))
+        {
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (string.IsNullOrWhiteSpace(line))
+                {
+                    continue;
+                }
+
+                if (header == null)
+                {
+                    header = line;
+                    keys = header.Split(separator);
+                    continue;
+                }
+
+                string[] values = line.Split(separator);
+                var docData = new Dictionary<string, object>();
+                for (int i = 0; i < keys.Length; i++)
+                {
+                    ((IDictionary<string, object>)docData).Add(keys[i], values[i]);
+                }
+
+                bulkDocs.Add(docData);
+            }
+        }
+
+        var payload = new { docs = bulkDocs };
+
+        var response = await _httpClient.PostAsJsonAsync($"/_all_docs", payload);
+
+        return response.IsSuccessStatusCode;
     }
 }

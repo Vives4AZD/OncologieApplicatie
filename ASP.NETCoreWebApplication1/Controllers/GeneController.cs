@@ -20,7 +20,7 @@ public class GeneController : Controller
     [HttpGet("[action]/{id}")]
     public async Task<ActionResult> GetGeneByGuid(Guid id)
     {
-        var filter = new Dictionary<string, string>()
+        var filter = new Dictionary<string, object>()
         {
             { "_id", id.ToString().Replace("-", "") }
         };
