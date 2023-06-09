@@ -43,7 +43,7 @@ public class GeneService
     /// </summary>
     /// <param name="data">The data on which to find. The keys are the names of the filter (ex: _id) and the value is the value of said filter.</param>
     /// <returns>The found document(s) as a json string.</returns>
-    public async Task<string?> FindAsync(Dictionary<string, string> data)
+    public async Task<string?> FindAsync(Dictionary<string, object> data)
     {
         // Create a payload object with a selector property that contains the data dictionary
         var payload = new { selector = data };
@@ -64,21 +64,22 @@ public class GeneService
 
     /// <summary>
     /// Creates a new document in the database.
+    /// <summary>
+    /// Creates a new document in the database.
     /// </summary>
-    /// <param name="data">
-    /// The data for the document. The keys are the names of the variables (ex: _id) and the value is the value of said variable.
+    /// <param name="docPayload">
+    /// The payload data for the document. The keys are the names of the variables (ex: Gene) and the value is the value of said variable.
+    /// This method adds an id automatically, do not add it manually.
     /// </param>
     /// <returns>The created document.</returns>
-    public async Task<string?> CreateAsync(Dictionary<string, string> data)
+    public async Task<string?> CreateAsync(Dictionary<string, object> docPayload)
     {
         // Generate a new unique id for the document
         var guid = Guid.NewGuid().ToString().Replace("-", "");
-
-        // Construct the payload object with the new id and the document data
-        var payload = new { _id = guid, doc = data };
+        docPayload.Add("_id", guid);
 
         // Send a POST request with the payload to create the new document
-        var response = await _httpClient.PostAsJsonAsync($"/{guid}", payload);
+        var response = await _httpClient.PostAsJsonAsync($"", docPayload);
 
         // If the request was not successful, return null
         if (!response.IsSuccessStatusCode)
@@ -87,6 +88,59 @@ public class GeneService
         }
 
         // Otherwise, find and return the newly created document
-        return await FindAsync(new Dictionary<string, string>(){ { "_id", guid } });
+        return await FindAsync(new Dictionary<string, object>(){ { "_id", guid } });
+    }
+
+
+    public async Task<bool> CreateBulkAsync(Stream svData, string extension)
+    {
+        if (!extension.StartsWith('.'))
+        {
+            extension = '.' + extension;
+        }
+
+        string? header = null;
+        string[] keys = new string[] { };
+        List<Dictionary<string, object>> bulkDocs = new List<Dictionary<string, object>>();
+        string? separator = extension switch
+        {
+            ".csv" => ",",
+            ".tsv" => "\t",
+            _ => throw new Exception("Unsupported filetype.")
+        };
+
+        using (var reader = new StreamReader(svData))
+        {
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (string.IsNullOrWhiteSpace(line))
+                {
+                    continue;
+                }
+
+                if (header == null)
+                {
+                    header = line;
+                    keys = header.Split(separator);
+                    continue;
+                }
+
+                string[] values = line.Split(separator);
+                var docData = new Dictionary<string, object>();
+                for (int i = 0; i < keys.Length; i++)
+                {
+                    ((IDictionary<string, object>)docData).Add(keys[i], values[i]);
+                }
+
+                bulkDocs.Add(docData);
+            }
+        }
+
+        var payload = new { docs = bulkDocs };
+
+        var response = await _httpClient.PostAsJsonAsync($"/_all_docs", payload);
+
+        return response.IsSuccessStatusCode;
     }
 }

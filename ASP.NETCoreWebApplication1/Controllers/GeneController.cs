@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Dynamic;
+using Microsoft.AspNetCore.Mvc;
 using OncologieApplicatie.Services;
 
 namespace ASP.NETCoreWebApplication1.Controllers;
@@ -19,11 +20,20 @@ public class GeneController : Controller
     [HttpGet("[action]/{id}")]
     public async Task<ActionResult> GetGeneByGuid(Guid id)
     {
-        var filter = new Dictionary<string, string>()
+        var filter = new Dictionary<string, object>()
         {
             { "_id", id.ToString().Replace("-", "") }
         };
         var test = await gc.FindAsync(filter);
+        return Ok(test);
+    }
+
+    [HttpPost("[action]")]
+    public async Task<ActionResult> CreateGenePosition([FromBody] ExpandoObject body)
+    {
+        var myObject = new Dictionary<string, object?>(body);
+        var test = await gc.CreateAsync(myObject);
+        
         return Ok(test);
     }
 }
