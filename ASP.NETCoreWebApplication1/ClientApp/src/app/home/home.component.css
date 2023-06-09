@@ -1,7 +1,8 @@
 
 .titleDiv {
-  margin-left: 250px;
-  padding-bottom: 50px
+  margin-left: 150px;
+  padding-bottom: 50px;
+  padding-top: 50px
 }
 
 .title {
@@ -9,18 +10,42 @@
   font-size: 60px
 }
 
+.btnAdd {
+  margin-left: 150px;
+  size: A3
+}
+
 .row {
   margin: 20px;
   max-width: 500px;
 }
+
 .tabledesign{
   width: 800px;
   margin: auto;
 }
 
+.h5 {
+  color: #1746A2;
+}
+
+.searchDiv {
+  margin-left: 143px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.Add {
+  color: #1746A2;
+}
+
+.modalDiv {
+  position: center
+}
+
 #loading{
   position: absolute;
-  left: 50%;
+  left: 50%;      
   top: 50%;
   z-index: 1;
   width: 150px;
