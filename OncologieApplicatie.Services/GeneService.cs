@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using System.Net;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 
@@ -7,7 +8,7 @@ namespace OncologieApplicatie.Services;
 public class GeneService
 {
     private HttpClient _httpClient;
-    private const string URI = "https://fine-garlics-type.loca.lt/oncologie/";
+    private const string URI = "https://curvy-items-swim.loca.lt/oncologie/";
 
     public GeneService(string username, string password)
     {
@@ -89,4 +90,35 @@ public class GeneService
         // Otherwise, find and return the newly created document
         return await FindAsync(new Dictionary<string, string>(){ { "_id", guid } });
     }
+
+
+    public async Task<bool> DeleteAsync(string id)
+	{
+    var response = await _httpClient.DeleteAsync(id);
+
+    if (response.IsSuccessStatusCode)
+    {
+        return true;
+    }
+
+    if (response.StatusCode == HttpStatusCode.NotFound)
+    {
+        return false;
+    }
+
+    throw new Exception($"Error: {response.StatusCode}");
+	}
+
+	public async Task<bool> DeleteDocumentAsync(string documentId, string documentRevision)
+	{
+		// Create a DELETE request to the specific document endpoint using the HttpClient
+		var response = await _httpClient.DeleteAsync($"{documentId}?rev={documentRevision}");
+
+		// Return true if the delete request is successful (status code 200)
+		return response.IsSuccessStatusCode;
+	}
+
+
+
+
 }
