@@ -14,4 +14,5 @@ export class SharedService{
   GetAllGenes() {return this.http.get("/Gene/GetAllGenes")};
   GetGeneByGuid(id: any) {return this.http.get("/Gene/GetGeneByGuid/" + id)};
   //Setters
+
 }

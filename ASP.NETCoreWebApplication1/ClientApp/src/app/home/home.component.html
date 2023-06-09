@@ -2,6 +2,9 @@
   <div style="margin: auto">
     <h1 class="title">Gene Database</h1>
   </div>
+  <div>
+    <button class="btn btn-primary" (click)="showModalAddGenePosition = !showModalAddGenePosition">add Gene position</button>
+  </div>
 
 <div class="d-flex justify-content-center" style="position: absolute; top: 50%; left: 50%" *ngIf="!gens">
     <span class="sr-only" id="loading"></span>
@@ -33,6 +36,64 @@
         </tbody>
       </table>
     </div>
-
 </div>
+<!--Modals-->
+  <div class="modal fade" [ngClass]="{'show': showModalAddGenePosition, 'hidden': !showModalAddGenePosition}" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title">Add a position to an existing Gene</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="clearModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="row">
+            <div class="col">
+              <strong>Gene</strong>
+            </div>
+            <div class="col">
+              <select [(ngModel)]="NewGenposition.Gene">
+                <option *ngFor="let Gene of GenNames">{{Gene}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <strong>cDNA</strong>
+            </div>
+            <div class="col">
+              <input [(ngModel)]="NewGenposition.cDNA" type="text" placeholder="cDNA">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <strong>Protein</strong>
+            </div>
+            <div class="col">
+              <input type="text" placeholder="Protein" [(ngModel)]="NewGenposition.Protein">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <strong>Tier</strong>
+            </div>
+            <div class="col">
+              <select [(ngModel)]="NewGenposition.Tier">
+                <option>I</option>
+                <option>II</option>
+                <option>III</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">Voeg toe</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clearModal()">Sluiten</button>
+        </div>
+      </div>
+    </div>
+  </div>
 

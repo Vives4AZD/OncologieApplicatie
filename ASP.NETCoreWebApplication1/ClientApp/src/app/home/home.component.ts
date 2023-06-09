@@ -12,11 +12,22 @@ export class HomeComponent {
   isSearchEmpty: boolean = false;
   searchText="";
   searchPosition = "";
+
+  GenNames: any = [];
+  NewGenposition: any = {
+    'Gene':"",
+    'cDNA': "",
+    'Protein': "",
+    'Tier': ""
+  };
+
+  showModalAddGenePosition: boolean = false;
   constructor(private ss: SharedService, private router: Router) {
   }
   ngOnInit(): void {
     this.ss.GetAllGenes().subscribe( d =>{
       this.gens = d;
+      this.GetUniqueGeneName();
     });
   }
 
@@ -25,6 +36,15 @@ export class HomeComponent {
     this.router.navigateByUrl('/detail/' + id);
   }
 
+  GetUniqueGeneName(){
+    this.GenNames.push(this.gens.rows[0].doc.Gene);
+    for (let gen of this.gens.rows){
+        if (!this.GenNames.includes(gen.doc.Gene)){
+          this.GenNames.push(gen.doc.Gene);
+        }
+    }
+    console.log(this.GenNames);
+  }
   searchKey(data:string)
   {
     if (data == ""){
@@ -57,6 +77,15 @@ export class HomeComponent {
     console.log(this.searchPosition.toLowerCase().trim());
     this.filteredgens = this.filteredgens.filter((p: { doc: { cDNA: string; }; }) => p.doc.cDNA.toLowerCase().trim().includes(this.searchPosition.toLowerCase().trim()));
     console.log(this.filteredgens);
+  }
+  clearModal(){
+    this.NewGenposition = {
+      'Gene':"",
+      'cDNA': "",
+      'Protein': "",
+      'Tier': ""
+    }
+    this.showModalAddGenePosition = false;
   }
 
   protected readonly String = String;
