@@ -7,9 +7,11 @@ namespace ASP.NETCoreWebApplication1.Controllers;
 [Route("[Controller]")]
 public class GeneController : Controller
 {
-    private GeneService gc = new GeneService("admin", "admin123");
-    
-    [HttpGet("[action]")]
+	//private GeneService gc = new GeneService("admin", "admin123");
+
+	private GeneService gc = new GeneService("admin", "test");
+
+	[HttpGet("[action]")]
     public async Task<ActionResult> GetAllGenes()
     {
         var test = await  gc.GetAsync();

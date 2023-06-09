@@ -7,8 +7,10 @@ namespace OncologieApplicatie.Services;
 public class GeneService
 {
     private HttpClient _httpClient;
-    private const string URI = "https://real-baths-beg.loca.lt/oncologie/";
+	//private const string URI = "https://real-baths-beg.loca.lt/oncologie/";
 
+	private const string URI = "http://localhost:5984/oncologiedatabase/";
+	
     public GeneService(string username, string password)
     {
         string encoded = System.Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(username + ":" + password));
