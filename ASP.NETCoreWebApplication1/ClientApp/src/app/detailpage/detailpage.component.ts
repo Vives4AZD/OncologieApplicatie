@@ -60,9 +60,38 @@ export class DetailpageComponent {
     });
   }
 
+  AddImage(event: any) {
+    const file = event.target.files[0];
 
+    // Validate file type
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    if (!allowedTypes.includes(file.type)) {
+      console.log('Invalid file type. Only JPEG, PNG, and GIF images are allowed.');
+      return;
+    }
 
-  AddImage() {
-    this.router.navigateByUrl('');
+    const reader = new FileReader();
+
+    reader.onload = (e: any) => {
+      const base64Image = e.target.result;
+
+      if (!this.gen.docs[0].images) {
+        this.gen.docs[0].images = [];
+      }
+
+      const newImage = {
+        id: this.gen.docs[0].images.length,
+        title: file.name,
+        src: base64Image
+      };
+      this.gen.docs[0].images.push(newImage);
+      this.ss.UpdateGenePosition(this.gen.docs[0], this.genId).subscribe(d => {
+        console.log('Image added successfully');
+      });
+    };
+
+    reader.readAsDataURL(file);
   }
+
+
 }

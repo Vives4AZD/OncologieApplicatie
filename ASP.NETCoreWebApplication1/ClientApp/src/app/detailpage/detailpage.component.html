@@ -83,4 +83,5 @@
 </div>
 <button class="btn btn-primary" (click)="NavigateBack()">Back</button>
 
-<button class="btn btn-primary" (click)="AddImage()">Add Image</button>
+<button class="btn btn-primary" (click)="fileInput.click()">Add Image</button>
+<input #fileInput type="file" style="display: none" (change)="AddImage($event)">
