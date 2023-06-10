@@ -8,7 +8,7 @@ namespace OncologieApplicatie.Services;
 public class GeneService
 {
     private HttpClient _httpClient;
-    private const string URI = "https://shaggy-lands-count.loca.lt/oncologie/";
+    private const string URI = "http://localhost:5984/oncologiedatabase/";
 
     public GeneService(string username, string password)
     {
