@@ -59,4 +59,10 @@ export class DetailpageComponent {
     this.ss.UpdateGenePosition(this.gen.docs[0], this.genId).subscribe(d =>{
     });
   }
+
+
+
+  AddImage() {
+    this.router.navigateByUrl('');
+  }
 }
