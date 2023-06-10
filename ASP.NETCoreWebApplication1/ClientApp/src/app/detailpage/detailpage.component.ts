@@ -94,4 +94,18 @@ export class DetailpageComponent {
   }
 
 
+  DeleteImage(imageId: number) {
+    if (!this.gen.docs[0].images) {
+      return;
+    }
+
+    const imageIndex = this.gen.docs[0].images.findIndex((image: any) => image.id === imageId);
+    if (imageIndex > -1) {
+      this.gen.docs[0].images.splice(imageIndex, 1);
+      this.ss.UpdateGenePosition(this.gen.docs[0], this.genId).subscribe(d => {
+        console.log('Image deleted successfully');
+      });
+    }
+  }
+
 }

@@ -37,16 +37,21 @@
     </div>
 
     <div class="col-3 value" *ngIf="key === 'images'">
-      <div *ngFor="let item of gen.docs[0][key]">
-
-        <img [src]="(item.src)" [alt]="(item.title)" class="detail-image">
-
+      <div class="image-container">
+        <div *ngFor="let item of gen.docs[0][key]" class="image-item">
+          <img [src]="item.src" [alt]="item.title" class="detail-image">
+          <div class="image-title">{{ item.title }}</div>
+          <button class="btn btn-danger delete-btn" (click)="DeleteImage(item.id)">Delete</button>
+        </div>
       </div>
     </div>
 
     <div class="col-3"></div>
   </div>
+
 </div>
+
+
 
 
 
