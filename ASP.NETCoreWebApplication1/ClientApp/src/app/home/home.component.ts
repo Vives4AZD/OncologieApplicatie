@@ -1,23 +1,23 @@
-import {Component} from '@angular/core';
-import {SharedService} from "../services/shared.service";
-import {Router} from '@angular/router'
+import { Component } from '@angular/core';
+import { SharedService } from "../services/shared.service";
+import { Router } from '@angular/router'
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  gens:any;
-  filteredgens:any;
+  gens: any;
+  filteredgens: any;
   isSearchEmpty: boolean = false;
-  searchText="";
+  searchText = "";
   searchPosition = "";
 
-  createdGenePosition:any;
+  createdGenePosition: any;
 
   GenNames: any = [];
   NewGenposition: any = {
-    'Gene':"",
+    'Gene': "",
     'cDNA': "",
     'Protein': "",
     'Tier': ""
@@ -35,30 +35,28 @@ export class HomeComponent {
     this.router.navigateByUrl('/detail/' + id);
   }
 
-  GetUniqueGeneName(){
+  GetUniqueGeneName() {
     this.GenNames.push(this.gens.rows[0].doc.Gene);
-    for (let gen of this.gens.rows){
-        if (!this.GenNames.includes(gen.doc.Gene)){
-          this.GenNames.push(gen.doc.Gene);
-        }
+    for (let gen of this.gens.rows) {
+      if (!this.GenNames.includes(gen.doc.Gene)) {
+        this.GenNames.push(gen.doc.Gene);
+      }
     }
     console.log(this.GenNames);
   }
-  searchKey(data:string)
-  {
-    if (data == ""){
+  searchKey(data: string) {
+    if (data == "") {
       this.isSearchEmpty = false;
       this.filteredgens = null;
       return;
     }
     this.isSearchEmpty = true;
-    this.searchText=data;
+    this.searchText = data;
     this.search();
   }
-  srcPos(data:string)
-  {
+  srcPos(data: string) {
     this.search();
-    if (data == ""){
+    if (data == "") {
       this.filteredgens = null;
       this.searchKey(this.searchText);
       return;
@@ -66,20 +64,19 @@ export class HomeComponent {
     this.searchPosition = data;
     this.filterPosition();
   }
-  search()
-  {
+  search() {
     console.log(this.searchText.toLowerCase().trim());
     this.filteredgens = this.gens.rows.filter((t: { doc: { Gene: string; }; }) => t.doc.Gene.toLowerCase().trim().includes(this.searchText.toLowerCase().trim()));
   }
 
-  filterPosition(){
+  filterPosition() {
     console.log(this.searchPosition.toLowerCase().trim());
     this.filteredgens = this.filteredgens.filter((p: { doc: { cDNA: string; }; }) => p.doc.cDNA.toLowerCase().trim().includes(this.searchPosition.toLowerCase().trim()));
     console.log(this.filteredgens);
   }
-  clearModal(){
+  clearModal() {
     this.NewGenposition = {
-      'Gene':"",
+      'Gene': "",
       'cDNA': "",
       'Protein': "",
       'Tier': ""
@@ -87,8 +84,8 @@ export class HomeComponent {
     this.showModalAddGenePosition = false;
   }
 
-  AddGeneposition(){
-    this.ss.CreateGenePosition(this.NewGenposition).subscribe(d =>{
+  AddGeneposition() {
+    this.ss.CreateGenePosition(this.NewGenposition).subscribe(d => {
 
       this.createdGenePosition = d;
       console.log(d);
@@ -96,8 +93,8 @@ export class HomeComponent {
       this.showModalAddGenePosition = false;
     });
   }
-  RefreshList(){
-    this.ss.GetAllGenes().subscribe( d =>{
+  RefreshList() {
+    this.ss.GetAllGenes().subscribe(d => {
       this.gens = d;
       this.GetUniqueGeneName();
     });
