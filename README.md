@@ -21,7 +21,7 @@ This project aims to provide a fast and scalable solution for researchers and sc
 - See details of Gene
 - Angular interface
 - Linux(Fedora) executable
-
+- Add and delete images
 
 ## Technological Stack
 
