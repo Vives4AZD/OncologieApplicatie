@@ -41,14 +41,14 @@ This project aims to provide a fast and scalable solution for researchers and sc
 git clone https://github.com/Vives4AZD/OncologieApplicatie.git /path/desired-location
 ```
 
-### 3. Install CouchDB
+### 2. Install CouchDB
 
 ```bash
 sudo dnf copr enable adrienverge/couchdb
 sudo dnf install couchdb
 ```
 
-### 4. Configure CouchDB
+### 3. Configure CouchDB
 In the repo there is file 'local.ini' in the directory 'etc'. 
 Copy the contents of it to the the CouchDB configuration.
 This will make sure that you have a user called 'admin' with password 'admin123'
@@ -57,7 +57,7 @@ This will make sure that you have a user called 'admin' with password 'admin123'
 sudo cp /path/desired-location/etc/local.ini /etc/couchdb/local.ini
 ```
 
-### 5. Start CouchDB-service
+### 4. Start CouchDB-service
 
 Use the following command to start CouchDB. The port to access it with the browser (or commandline) is port 5984.
 
@@ -65,7 +65,7 @@ Use the following command to start CouchDB. The port to access it with the brows
   sudo systemctl enable --now couchdb.service
 ```
 
-### 6. Create an initial database (two alternative ways)
+### 5. Create an initial database (two alternative ways)
 
 #### Option A: Visual: With Couchdb-webinterface
 - Go to http://localhost:5984/oncologie/_utils
@@ -79,7 +79,7 @@ Use curl and use the following bash command. You need to give in the 'user' and 
 curl -X PUT http://localhost:5984/oncologie -u admin:admin123
 ```
 
-### 7. Create a new entry/document (two alternative ways)
+### 6. Create a new entry/document (two alternative ways)
 #### Option A: Visuaith l with CouchDb-webinterface
 
 Go to http://localhost:5984/oncologie and next to 'All Documents' you have a plus sign you can click on to add a new entry.
