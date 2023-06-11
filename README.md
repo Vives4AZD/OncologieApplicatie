@@ -19,7 +19,6 @@ This project aims to provide a fast and scalable solution for researchers and sc
 
 - Search Registred Genes
 - See and update details of Gene
-- Add images
 - Angular interface
 - Linux(Fedora) executable
 
@@ -195,7 +194,7 @@ The application should be fully closed now and be able to run once more if desir
 ## Roadmap
 
 - Add Genes
-
+- Add/Delete Images
 
 
 ## Authors
