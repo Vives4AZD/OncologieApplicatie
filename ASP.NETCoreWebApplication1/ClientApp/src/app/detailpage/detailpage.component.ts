@@ -55,6 +55,7 @@ export class DetailpageComponent {
     console.log(this.gen.docs[0]);
     console.log(this.gen);
     this.ss.UpdateGenePosition(this.gen.docs[0], this.genId).subscribe(d =>{
+      this.ShowUpdateModal = false;
     });
   }
 }
