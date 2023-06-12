@@ -42,7 +42,8 @@
       <div class="modal-body">
         <div class="row">
           <div class="col">
-            <p>{{KeyToUpdate}}</p>
+            <input type="text" [(ngModel)]="KeyToUpdate" *ngIf="KeyToUpdate != 'cDNA' && KeyToUpdate != 'Gene'">
+            <p *ngIf="KeyToUpdate == 'cDNA' || KeyToUpdate == 'Gene'">{{KeyToUpdate}}</p>
           </div>
           <div class="col">
             <input type="text" [(ngModel)]="ValuetoUpdate">

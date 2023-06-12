@@ -49,11 +49,9 @@ export class DetailpageComponent {
     console.log(this.gen.docs[0]);
     for (let key in this.gen.docs[0]){
       if (key == this.OriginKey){
-        // Update the value of the key to the value of the 'ValuetoUpdate' property
-        this.gen.docs[0][key] = this.ValuetoUpdate;
+        key = this.KeyToUpdate;
       }
     }
-    this.ShowUpdateModal = false;
     console.log(this.gen.docs[0]);
     console.log(this.gen);
     this.ss.UpdateGenePosition(this.gen.docs[0], this.genId).subscribe(d =>{
