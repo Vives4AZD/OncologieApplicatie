@@ -10,11 +10,13 @@ export class SharedService{
   constructor( private http: HttpClient) {
   }
 
-  //Getters
-
+  //Get-methods
   GetAllGenes() {return this.http.get("/Gene/GetAllGenes")};
   GetGeneByGuid(id: any) {return this.http.get("/Gene/GetGeneByGuid/" + id)};
-  //Setters
+
+  //post-methods
   CreateGenePosition(genePosition: any) {return this.http.post("/Gene/CreateGenePosition" , genePosition )}
+
+  //put-methods
   UpdateGenePosition(genePosition:any, id:any) {return this.http.post("/Gene/UpdateGenePosition/" + id , genePosition)}
 }
