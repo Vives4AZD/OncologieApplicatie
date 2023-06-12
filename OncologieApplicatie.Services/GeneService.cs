@@ -1,7 +1,5 @@
 ﻿using System.Net.Http.Json;
 using System.Text;
-using System.Text.Json;
-using System.Text.Json.Nodes;
 
 namespace OncologieApplicatie.Services;
 
@@ -71,21 +69,34 @@ public class GeneService
     /// This method adds an id automatically, do not add it manually.
     /// </param>
     /// <returns>The created document as a json string.</returns>
+    /// <exception cref="ArgumentException">Throws an exception if the Gene field doesn't exist or is empty.</exception>
     public async Task<string?> CreateAsync(Dictionary<string, object> docPayload)
     {
         // Generate a new unique id for the document
         var guid = Guid.NewGuid().ToString().Replace("-", "");
-        
+
+        // Remove any existing _id or _rev fields from the payload to ensure
+        // that the document is created with the newly generated id
         if (docPayload.ContainsKey("_id"))
         {
             docPayload.Remove("_id");
         }
-
         if (docPayload.ContainsKey("_rev"))
         {
             docPayload.Remove("_rev");
         }
 
+        // Check that the Gene field exists in the payload and that it has a value
+        if (!docPayload.ContainsKey("Gene"))
+        {
+            throw new ArgumentException("Gene must exist in create payload.");
+        }
+        else if (docPayload["Gene"] == null || docPayload["Gene"].ToString()!.Trim() == "")
+        {
+            throw new ArgumentException("Gene must have a value in create payload.");
+        }
+
+        // Add the generated id to the payload
         docPayload.Add("_id", guid);
 
         // Send a POST request with the payload to create the new document
@@ -106,16 +117,19 @@ public class GeneService
     /// </summary>
     /// <param name="id">The id of the document that needs to be updated.</param>
     /// <param name="updateData">The data to update the existing object with.</param>
-    /// <returns></returns>
+    /// <returns>A find request of the updated document as a json string.</returns>
     public async Task<string?> UpdateAsync(string id, Dictionary<string, object?> updatePayload)
     {
+        // Send update request
         var response = await _httpClient.PutAsJsonAsync($"{id}", updatePayload!);
 
+        // If update fails, return null
         if (!response.IsSuccessStatusCode)
         {
             return null;
         }
 
+        // Find and return updated document
         return await FindAsync(new Dictionary<string, object>() { { "_id", id } });
     }
 
@@ -128,17 +142,20 @@ public class GeneService
     /// <param name="svData">The stream gotten from the angular side (unfinished)</param>
     /// <param name="extension">The extension of the file. Has to be either .csv or .tsv</param>
     /// <returns>A boolean where true means that the server has added the documents.</returns>
-    /// <exception cref="Exception">Throws an exception if the filetype is unsupported</exception>
+    /// <exception cref="Exception">Throws an exception if the file type is unsupported</exception>
     public async Task<bool> CreateBulkAsync(Stream svData, string extension)
     {
+        // Ensure extension starts with a period
         if (!extension.StartsWith('.'))
         {
             extension = '.' + extension;
         }
 
+        // Initialize variables
         string? header = null;
         string[] keys = new string[] { };
         List<Dictionary<string, object>> bulkDocs = new List<Dictionary<string, object>>();
+        // Set separator based on file type, throw exception if file type isn't supported
         string? separator = extension switch
         {
             ".csv" => ",",
@@ -146,16 +163,19 @@ public class GeneService
             _ => throw new Exception("Unsupported filetype.")
         };
 
+        // Read data from stream
         using (var reader = new StreamReader(svData))
         {
             string line;
             while ((line = reader.ReadLine()) != null)
             {
+                // Skip empty lines
                 if (string.IsNullOrWhiteSpace(line))
                 {
                     continue;
                 }
 
+                // Parse header line
                 if (header == null)
                 {
                     header = line;
@@ -163,6 +183,7 @@ public class GeneService
                     continue;
                 }
 
+                // Parse data lines
                 string[] values = line.Split(separator);
                 var docData = new Dictionary<string, object>();
                 for (int i = 0; i < keys.Length; i++)
@@ -174,10 +195,13 @@ public class GeneService
             }
         }
 
+        // Prepare payload for bulk creation
         var payload = new { docs = bulkDocs };
 
+        // Send bulk creation request
         var response = await _httpClient.PostAsJsonAsync($"_all_docs", payload);
 
+        // Return success status
         return response.IsSuccessStatusCode;
     }
 }
