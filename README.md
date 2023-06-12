@@ -10,22 +10,20 @@ This project aims to provide a fast and scalable solution for researchers and sc
 
 
 ## Packages
-- CouchDB
+- CouchDB (https://github.com/adrienverge/copr-couchdb) 
 - .NET Core SDK (version 7.X or higher)
 - HttpClient library (e.g., System.Net.Http) 
 - Angular
 - Microsoft AspNetCore SpaProxy (7.0.5)
+
+
 ## Features
 
 - Search Registred Genes
-<<<<<<< HEAD
 - See and update details of Gene
-=======
-- See details of Gene
->>>>>>> parent of 4d520e0 (Update README.md)
 - Angular interface
 - Linux(Fedora) executable
-- Add and delete images
+
 
 ## Technological Stack
 
@@ -39,9 +37,8 @@ This project aims to provide a fast and scalable solution for researchers and sc
 
 ## Installation (Fedora)
 
-1.Install CouchDB with these instructions: https://github.com/adrienverge/copr-couchdb
+### 1. Clone the repository to the desired location
 
-<<<<<<< HEAD
 ```bash
 git clone https://github.com/Vives4AZD/OncologieApplicatie.git /path/desired-location
 ```
@@ -148,44 +145,58 @@ Note: Id and Rev values will get added automatically.
 
 Install .NET SDK
 This package is the one recommended by Microsoft. Install the latest, in this case it's 7.0.
-=======
-3.Install official .NET SDK and runtime
->>>>>>> parent of 4d520e0 (Update README.md)
 
 ```bash
 sudo dnf install dotnet-sdk-7.0
 ```
 
+Install Node.json
 ```bash
-sudo dnf install aspnetcore-runtime-7.0
+sudo dnf install nodejs
 ```
 
-4.Get the project from the git
+### 8. Running the WebApplication
+
+Go to the location where you pulled the repo in and execute it with dotnet
 
 ```bash
-  git clone https://github.com/Vives4AZD/OncologieApplicatie.git 
-  cd my-project
+cd /path/desired-location/ASP.NETCoreWebApplication1
+
+dotnet run
 ```
 
-5.Go into the project and run it with .NET
+The application will now go up and running.
+
+You will get a port that you will use to reach the application.
+
+
+https://localhost:7255
+
+https://localhost:44407
+
+
+
+### 9. Ending the application
+
+To end the WebApplication, you need to make sure the ports are all closed.
+
+To make sure, run this command and enter the port number you used to reach the application.
 
 ```bash
-  cd OncologieApplicatie/ASP.NETCoreWebApplication1
-  dotnet run
+sudo lsof -i :44407
 ```
 
+If they are still open. Perform the underlying command but replace 'pid' with the actual pid number you saw with the before mentioned command
 
-    
+```bash
+sudo kill -9 <pid>
+```
+
+The application should be fully closed now and be able to run once more if desired.
 ## Roadmap
 
-- Add Genes
-<<<<<<< HEAD
-- Add/Delete Images
-=======
-
-- Adjust Genes details
-
->>>>>>> parent of 4d520e0 (Update README.md)
+- Add Images
+- Alternative way to close the ports
 
 
 ## Authors
@@ -198,3 +209,4 @@ sudo dnf install aspnetcore-runtime-7.0
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
+[Apache License 2.0](https://choosealicense.com/licenses/apache-2.0/)
