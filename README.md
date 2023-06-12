@@ -178,25 +178,13 @@ https://localhost:44407
 
 ### 9. Ending the application
 
-To end the WebApplication, you need to make sure the ports are all closed.
+To end the application click on CTRL + C. The application should be shut down and ready to run once again.
 
-To make sure, run this command and enter the port number you used to reach the application.
 
-```bash
-sudo lsof -i :44407
-```
-
-If they are still open. Perform the underlying command but replace 'pid' with the actual pid number you saw with the before mentioned command
-
-```bash
-sudo kill -9 <pid>
-```
-
-The application should be fully closed now and be able to run once more if desired.
 ## Roadmap
 
 - Add Images
-- Alternative way to close the ports
+
 
 
 ## Authors
