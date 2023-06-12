@@ -6,7 +6,7 @@ namespace OncologieApplicatie.Services;
 public class GeneService
 {
     private HttpClient _httpClient;
-    private const string URI = "https://rich-pens-invite.loca.lt/oncologie/";
+    private const string URI = "http://localhost:5984/oncologie/";
 
 
 	public GeneService(string username, string password)
