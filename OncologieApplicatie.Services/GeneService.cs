@@ -6,9 +6,10 @@ namespace OncologieApplicatie.Services;
 public class GeneService
 {
     private HttpClient _httpClient;
-    private const string URI = "https://cool-words-worry.loca.lt/oncologie/";
-    
-    public GeneService(string username, string password)
+    private const string URI = "http://localhost:5984/oncologie/";
+
+
+	public GeneService(string username, string password)
     {
         string encoded = System.Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(username + ":" + password));
         _httpClient = new HttpClient();
