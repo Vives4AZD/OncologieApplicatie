@@ -49,7 +49,7 @@ export class DetailpageComponent {
     console.log(this.gen.docs[0]);
     for (let key in this.gen.docs[0]){
       if (key == this.OriginKey){
-        key = this.KeyToUpdate;
+        this.gen.docs[0][key] = this.ValuetoUpdate;
       }
     }
     console.log(this.gen.docs[0]);

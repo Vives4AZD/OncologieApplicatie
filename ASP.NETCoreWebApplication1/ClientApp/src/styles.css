@@ -41,3 +41,10 @@ code {
 .modal{
   display: block;
 }
+
+.blur--container{
+  filter: blur(5px) !important;
+}
+.no--blur--container{
+  filter: initial;
+}
